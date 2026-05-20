@@ -1,0 +1,146 @@
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: $card;
+  border-bottom: 1.5px solid $border;
+  padding: 0 32px 0 0;
+  min-height: 64px;
+  box-shadow: 0 2px 8px rgba(99,102,241,0.06);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.app-nav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0;
+  margin-left: 32px;
+  min-width: 160px;
+}
+
+.app-nav a {
+  color: $accent;
+  font-weight: 600;
+  font-size: 1.13rem;
+  text-decoration: none;
+  padding: 8px 18px;
+  border-radius: 8px 0 0 8px;
+  transition: background 0.15s, color 0.15s;
+  margin-right: 2px;
+  position: relative;
+}
+.app-nav a:not(:last-child)::after {
+  content: "";
+  display: inline-block;
+  width: 1px;
+  height: 22px;
+  background: $border;
+  margin-left: 8px;
+  vertical-align: middle;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.app-nav a:hover, .app-nav a.active {
+  background: $accent;
+  color: #fff;
+}
+
+.search-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 auto;
+  margin: 0 32px;
+  min-width: 320px;
+}
+
+.search-input {
+  padding: 0 12px;
+  border: 1.5px solid $border;
+  border-radius: 8px 0 0 8px;
+  font-size: 1.08rem;
+  outline: none;
+  background: $input-bg;
+  color: $text;
+  min-width: 180px;
+  height: 40px;
+  transition: border 0.15s;
+  box-sizing: border-box;
+}
+
+.search-input:focus {
+  border-color: $accent;
+}
+
+.search-button {
+  height: 40px;
+  padding: 0 18px;
+  border: 1.5px solid $accent;
+  border-radius: 0 8px 8px 0;
+  background: $accent;
+  color: #fff;
+  font-weight: 600;
+  font-size: 1.08rem;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-button:hover {
+  background: $accent-hover;
+}
+
+.header-user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 24px;
+}
+
+.header-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid $accent;
+}
+
+.header-username {
+  color: $accent;
+  font-weight: 600;
+  font-size: 1.08rem;
+}
+
+.logout-button {
+  background: #fff;
+  color: $accent;
+  border: 1.5px solid $accent;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1.02rem;
+  padding: 0 18px;
+  height: 40px;
+  line-height: 40px;
+  margin-left: 32px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  min-width: 80px;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logout-button:hover {
+  background: $accent;
+  color: #fff;
+}

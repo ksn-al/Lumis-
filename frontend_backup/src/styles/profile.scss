@@ -1,0 +1,286 @@
+.profile-page {
+  max-width: 600px;
+  margin: 40px auto;
+  background: $card;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  padding: 32px 24px 24px 24px;
+  border: 1px solid $border;
+}
+
+.profile-title {
+  text-align: center;
+  margin-bottom: 18px;
+  color: $accent;
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.profile-username, .profile-displayname {
+  font-size: 1.1rem;
+  margin: 8px 0;
+}
+
+.profile-edit-form label {
+  display: block;
+  margin-bottom: 10px;
+  color: $text-secondary;
+}
+
+.profile-edit-form input {
+  padding: 8px 12px;
+  border: 1px solid $border;
+  border-radius: 8px;
+  font-size: 1rem;
+  margin-top: 4px;
+  width: 100%;
+  background: #f9fafb;
+  color: $text;
+  outline: none;
+  transition: border 0.2s;
+  &:focus {
+    border-color: $accent;
+  }
+}
+
+.profile-save-button, .profile-edit-button, .profile-follow-button, .profile-unfollow-button, .profile-message-button, .profile-modal-close {
+  @extend .mui-btn;
+  margin-top: 10px;
+  margin-right: 8px;
+}
+
+.profile-save-msg {
+  color: $accent;
+  margin-top: 8px;
+}
+
+.profile-actions {
+  display: flex;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.profile-follow-block {
+  margin-top: 16px;
+  font-size: 1.05rem;
+  color: $text-secondary;
+  cursor: pointer;
+}
+
+.profile-modal-backdrop {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.profile-modal {
+  background: $card;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  padding: 24px 16px;
+  min-width: 280px;
+}
+
+.profile-modal-title {
+  color: $accent;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.profile-modal-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 12px 0;
+}
+
+.profile-modal-list-item {
+  padding: 6px 0;
+  border-bottom: 1px solid $border;
+  color: $text;
+}
+
+.profile-modal-list-item:last-child {
+  border-bottom: none;
+}
+
+.profile-modal-close {
+  background: $accent-hover;
+  color: #fff;
+  width: 100%;
+}
+
+.profile-loading {
+  text-align: center;
+  color: $text-secondary;
+}
+
+// --- Новый современный стиль Threads/X ---
+.profile-card {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+  max-width: 600px;
+  margin: 32px auto;
+  overflow: hidden;
+  font-family: 'Inter', 'Roboto', Arial, sans-serif;
+}
+
+.profile-cover-wrap {
+  position: relative;
+  height: 180px;
+  background: #f5f5f5;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.profile-cover {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 18px 18px 0 0;
+}
+
+.profile-avatar-wrap {
+  position: absolute;
+  left: 32px;
+  bottom: -48px;
+  border-radius: 50%;
+  border: 4px solid #fff;
+  background: #fff;
+  width: 96px;
+  height: 96px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+}
+
+.profile-avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.profile-avatar-edit-wrap {
+  position: absolute;
+  left: 50%;
+  bottom: -56px;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 2;
+}
+
+.profile-avatar-large {
+  width: 112px;
+  height: 112px;
+  border-radius: 50%;
+  border: 4px solid #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  object-fit: cover;
+  background: #fff;
+}
+
+.profile-edit-btn-under-avatar {
+  margin-top: 12px;
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  padding: 7px 22px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  &:hover {
+    background: #125ea2;
+  }
+}
+
+.profile-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 56px 32px 0 32px;
+}
+
+.profile-main-info {
+  flex: 1;
+}
+
+.profile-main-info-centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 72px;
+  margin-bottom: 12px;
+}
+
+.profile-displayname {
+  margin: 0 0 4px 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.profile-username {
+  color: #888;
+  font-size: 1rem;
+  margin-bottom: 8px;
+}
+
+.profile-bio {
+  margin-top: 8px;
+  color: #444;
+}
+
+.profile-edit-btn {
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  padding: 8px 24px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-left: 24px;
+  transition: background 0.2s;
+  &:hover {
+    background: #125ea2;
+  }
+}
+
+.profile-stats {
+  display: flex;
+  gap: 32px;
+  padding: 16px 32px;
+  font-size: 1.1rem;
+  border-bottom: 1px solid #eee;
+  span {
+    font-weight: 500;
+    color: #222;
+  }
+}
+
+.profile-posts {
+  padding: 24px 32px;
+}
+
+.profile-post {
+  background: #f7f9fa;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  font-size: 1.1rem;
+}
+
+.profile-empty {
+  color: #888;
+  text-align: center;
+  margin-top: 32px;
+}
+// --- Конец нового стиля ---

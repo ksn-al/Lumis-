@@ -1,0 +1,127 @@
+.feed-card {
+  width: 100%;
+  max-width: 760px;
+
+  margin: 32px auto;
+  padding: 28px;
+
+  background: $card;
+  border: 1px solid $border;
+  border-radius: 26px;
+
+  box-shadow: 0 18px 45px rgba(31, 41, 51, 0.06);
+
+  font-family: "Inter", "Roboto", Arial, sans-serif;
+}
+
+.feed-title {
+  margin: 0 0 22px;
+
+  color: $text;
+
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.feed-create-form {
+  margin-bottom: 26px;
+  padding: 18px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+
+  background: #f8faf7;
+  border: 1px solid $border;
+  border-radius: 20px;
+}
+
+.feed-textarea {
+  width: 100%;
+  min-height: 90px;
+
+  padding: 14px 16px;
+
+  border: 1px solid $border;
+  border-radius: 16px;
+
+  resize: vertical;
+
+  background: #ffffff;
+  color: $text;
+
+  font-size: 1rem;
+  line-height: 1.5;
+
+  outline: none;
+
+  transition: 0.2s ease;
+
+  &::placeholder {
+    color: $text-secondary;
+  }
+
+  &:focus {
+    border-color: $accent;
+    box-shadow: 0 0 0 4px rgba(107, 143, 113, 0.12);
+  }
+}
+
+.feed-create-btn {
+  align-self: flex-end;
+
+  min-height: 42px;
+  padding: 0 22px;
+
+  border: none;
+  border-radius: 14px;
+
+  background: $accent;
+  color: #ffffff;
+
+  font-size: 0.95rem;
+  font-weight: 700;
+
+  cursor: pointer;
+  transition: 0.22s ease;
+
+  &:hover {
+    background: $accent-hover;
+    transform: translateY(-1px);
+  }
+}
+
+.feed-post-error {
+  color: #c2410c;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.feed-posts {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.feed-empty {
+  padding: 36px 20px;
+
+  color: $text-secondary;
+  text-align: center;
+
+  background: #f8faf7;
+  border: 1px dashed $border;
+  border-radius: 20px;
+}
+
+@media (max-width: 700px) {
+  .feed-card {
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 22px;
+  }
+
+  .feed-create-btn {
+    width: 100%;
+  }
+}

@@ -1,0 +1,393 @@
+@import "./variables.scss";
+
+.profile-page-modern {
+  min-height: 100vh;
+  padding: 32px 16px 60px;
+  background: $bg;
+  color: $text;
+}
+.profile-modern-avatar {
+  width: 110px;
+  height: 110px;
+
+  border-radius: 50%;
+
+  background: linear-gradient(
+    135deg,
+    #dbe5dc,
+    #b9cdbd
+  );
+
+  border: 4px solid white;
+
+  object-fit: cover;
+
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+.post {
+  padding: 18px;
+  border-radius: 18px;
+
+  border: 1px solid $border;
+
+  background: white;
+
+  margin-bottom: 16px;
+}
+.header {
+  height: 68px;
+}
+.profile-modern-card {
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto 32px;
+ padding: 24px;
+  overflow: hidden;
+
+  background: $card;
+  border: 1px solid $border;
+  border-radius: 28px;
+
+  box-shadow: 0 18px 45px rgba(31, 41, 51, 0.08);
+}
+
+.profile-modern-cover-wrap {
+  width: 100%;
+  height: 240px;
+
+  background: linear-gradient(135deg, rgba(107, 143, 113, 0.16), rgba(255, 255, 255, 0.4));
+
+  overflow: hidden;
+}
+
+.profile-modern-cover {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  display: block;
+}
+
+.profile-modern-main-row {
+  padding: 0 36px 34px;
+
+  display: flex;
+  align-items: flex-end;
+  gap: 28px;
+}
+
+.profile-modern-avatar-block {
+  flex-shrink: 0;
+  margin-top: -56px;
+}
+
+.profile-modern-avatar {
+  width: 128px;
+  height: 128px;
+
+  border-radius: 50%;
+  object-fit: cover;
+
+  background: $card;
+  border: 5px solid $card;
+
+  box-shadow: 0 12px 30px rgba(31, 41, 51, 0.14);
+}
+
+.profile-modern-info-block {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.profile-modern-names {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.profile-modern-displayname {
+  color: $text;
+
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.profile-modern-username {
+  color: $text-secondary;
+
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.profile-modern-follow-row {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.profile-modern-following,
+.profile-modern-followers {
+  color: $text;
+  font-size: 0.98rem;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: $accent;
+  }
+}
+
+.profile-modern-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.profile-follow-button,
+.profile-unfollow-button,
+.profile-message-button,
+.profile-edit-btn-under-avatar,
+.profile-save-button,
+.profile-modal-close {
+  min-height: 42px;
+  padding: 0 18px;
+
+  border: none;
+  border-radius: 14px;
+
+  font-size: 0.95rem;
+  font-weight: 700;
+
+  cursor: pointer;
+  transition: 0.22s ease;
+}
+
+.profile-follow-button,
+.profile-save-button {
+  background: $accent;
+  color: #ffffff;
+
+  &:hover {
+    background: $accent-hover;
+    transform: translateY(-1px);
+  }
+}
+
+.profile-unfollow-button,
+.profile-message-button,
+.profile-edit-btn-under-avatar,
+.profile-modal-close {
+  background: rgba(107, 143, 113, 0.1);
+  color: $accent;
+
+  &:hover {
+    background: rgba(107, 143, 113, 0.16);
+    transform: translateY(-1px);
+  }
+}
+
+.profile-modern-posts-block {
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+
+  padding: 26px;
+
+  background: $card;
+  border: 1px solid $border;
+  border-radius: 28px;
+
+  box-shadow: 0 18px 45px rgba(31, 41, 51, 0.06);
+}
+
+.profile-modern-posts-title {
+  margin: 0 0 22px;
+
+  color: $text;
+
+  font-size: 1.35rem;
+  font-weight: 800;
+}
+
+.profile-no-posts,
+.profile-loading {
+  padding: 40px 20px;
+
+  text-align: center;
+  color: $text-secondary;
+
+  font-size: 1rem;
+}
+
+.profile-edit-form {
+  width: 100%;
+  max-width: 520px;
+
+  margin: 40px auto;
+  padding: 30px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  background: $card;
+  border: 1px solid $border;
+  border-radius: 26px;
+
+  box-shadow: 0 18px 45px rgba(31, 41, 51, 0.08);
+
+  @import "./variables.scss";
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    color: $text;
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+
+  input {
+    width: 100%;
+    height: 46px;
+
+    padding: 0 14px;
+
+    border: 1px solid $border;
+    border-radius: 14px;
+
+    background: #ffffff;
+    color: $text;
+
+    outline: none;
+
+    &:focus {
+      border-color: $accent;
+      box-shadow: 0 0 0 4px rgba(107, 143, 113, 0.12);
+    }
+  }
+
+  button[type="button"] {
+    min-height: 42px;
+    border: none;
+    border-radius: 14px;
+
+    background: rgba(107, 143, 113, 0.1);
+    color: $accent;
+
+    font-weight: 700;
+    cursor: pointer;
+  }
+}
+
+.profile-save-msg {
+  text-align: center;
+  color: $accent;
+  font-weight: 600;
+}
+
+.profile-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  background: rgba(31, 41, 51, 0.32);
+  backdrop-filter: blur(6px);
+}
+
+.profile-modal {
+  width: 100%;
+  max-width: 420px;
+
+  padding: 26px;
+
+  background: $card;
+  border-radius: 24px;
+  border: 1px solid $border;
+
+  box-shadow: 0 24px 70px rgba(31, 41, 51, 0.18);
+}
+
+.profile-modal-title {
+  margin: 0 0 18px;
+
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: $text;
+}
+
+.profile-modal-list {
+  margin: 0 0 20px;
+  padding: 0;
+
+  list-style: none;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.profile-modal-list-item {
+  padding: 12px 14px;
+
+  border-radius: 14px;
+
+  background: rgba(107, 143, 113, 0.08);
+  color: $text;
+
+  font-weight: 500;
+}
+
+@media (max-width: 700px) {
+  .profile-modern-cover-wrap {
+    height: 170px;
+  }
+
+  .profile-modern-main-row {
+    padding: 0 22px 28px;
+
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 18px;
+  }
+
+  .profile-modern-avatar-block {
+    margin-top: -58px;
+  }
+
+  .profile-modern-avatar {
+    width: 116px;
+    height: 116px;
+  }
+
+  .profile-modern-info-block {
+    align-items: center;
+  }
+
+  .profile-modern-follow-row,
+  .profile-modern-actions {
+    justify-content: center;
+  }
+
+  .profile-modern-displayname {
+    font-size: 1.55rem;
+  }
+
+  .profile-modern-posts-block {
+    padding: 20px;
+  }
+}

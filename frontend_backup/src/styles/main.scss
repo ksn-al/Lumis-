@@ -1,0 +1,102 @@
+@import "./messages.scss";
+@import "./profile-modern.scss";
+
+
+$bg: #f5f7f4;
+$card: #ffffff;
+
+$text: #1f2933;
+$text-secondary: #6b7280;
+
+$accent: #6b8f71;
+$accent-hover: #55735b;
+
+$border: #dde5dd;
+* {
+  box-sizing: border-box;
+}
+
+button, .mui-btn {
+  display: inline-block;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1.08rem;
+  padding: 12px 0;
+  background: $accent;
+  color: #fff;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(99,102,241,0.08);
+  transition: background 0.18s, box-shadow 0.18s, color 0.18s;
+  /* margin-top и margin-bottom убраны, чтобы не влиять на кнопки вне форм */
+  // Кнопки внутри форм (например, .login-form, .feed-create-post-form) должны иметь отступы
+  .login-form button,
+  .feed-create-post-form button,
+  .register-form button,
+  .forgot-password-form button {
+    width: 100%;
+    margin-top: 8px;
+    margin-bottom: 4px;
+  }
+  letter-spacing: 0.01em;
+  // Кнопки внутри форм (например, .login-form, .feed-create-post-form) должны быть на всю ширину
+  .login-form button,
+  .feed-create-post-form button,
+  .register-form button,
+  .forgot-password-form button {
+    width: 100%;
+  }
+  &:hover, &:focus {
+    background: $accent-hover;
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(79,70,229,0.13);
+  }
+  &.like {
+    color: #e53935;
+    background: #fff;
+    border: 1px solid $border;
+    &:hover {
+      background: #ffeaea;
+      color: #e53935;
+    }
+  }
+  &.favorite {
+    color: #fbc02d;
+    background: #fff;
+    border: 1px solid $border;
+    &:hover {
+      background: #fffde7;
+      color: #fbc02d;
+    }
+  }
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: $bg;
+  color: $text;
+}
+
+.card {
+  background: $card;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  padding: 24px;
+  margin-bottom: 20px;
+  border: 1px solid $border;
+}
+
+.header {
+  background: $card;
+  border-bottom: 1px solid $border;
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.text-secondary {
+  color: $text-secondary;
+}

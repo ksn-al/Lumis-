@@ -1,0 +1,71 @@
+
+.post-like-button,
+.post-favorite-button {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  padding: 0;
+  margin-right: 14px;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  opacity: 1;
+  color: #22223b;
+  transition: color 0.18s;
+}
+
+.post-like-button.liked {
+  color: #e91e63;
+}
+.post-favorite-button.favorited {
+  color: #fbc02d;
+}
+.post-like-button:hover,
+.post-favorite-button:hover {
+  color: #1976d2;
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+// Убираем заливку и любые эффекты у svg-иконок MUI
+.post-like-button .MuiSvgIcon-root,
+.post-favorite-button .MuiSvgIcon-root {
+  fill: none !important;
+  stroke: currentColor !important;
+  box-shadow: none !important;
+  filter: none !important;
+  outline: none !important;
+  background: none !important;
+  border: none !important;
+}
+
+// Убираем заливку у svg-иконок MUI при hover/active
+.post-like-button .MuiSvgIcon-root,
+.post-favorite-button .MuiSvgIcon-root {
+  fill: none !important;
+}
+
+.post-like-button .MuiSvgIcon-root,
+.post-favorite-button .MuiSvgIcon-root {
+  font-size: 1.5em;
+  vertical-align: middle;
+  transition: color 0.18s, filter 0.18s;
+}
+
+.post-like-button .MuiSvgIcon-root,
+.post-favorite-button .MuiSvgIcon-root {
+  font-size: 1.5em;
+  vertical-align: middle;
+  transition: color 0.2s;
+}
+
+.post-like-button.liked .MuiSvgIcon-root {
+  color: #1976d2;
+}
+
+.post-favorite-button.favorited .MuiSvgIcon-root {
+  color: #e91e63;
+}
