@@ -73,7 +73,7 @@ export const getFeed = async (req: any, res: Response) => {
       where: {followerId: userId},
       select: {followingId: true},
     })
-    const followingIds = follows.map( (f) => f.followingId);
+    const followingIds = follows.map((f: any) => f.followingId);
     followingIds.push(userId);
     const posts = await prisma.post.findMany({
       where: {userId: {in: followingIds}},
@@ -146,7 +146,7 @@ export const getFavorites = async (req: any, res: Response) => {
         }
       }
     });
-    const posts = favorites.map(fav => fav.post);
+    const posts = favorites.map((fav: any) => fav.post);
     res.status(200).json({posts});
   }
   catch(error){

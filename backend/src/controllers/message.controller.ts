@@ -74,7 +74,7 @@ export const getMessages = async (req: any, res: Response) => {
       where: { id: conversationId },
       include: { participants: true }
     });
-    if (!conversation || !conversation.participants.some(u => u.id === userId)) {
+    if (!conversation || !conversation.participants.some((u: any) => u.id === userId)) {
       return res.status(403).json({ message: 'Немає доступу до цієї переписки' });
     }
     const messages = await prisma.message.findMany({
@@ -106,7 +106,7 @@ export const sendMessage = async (req: any, res: Response) => {
       where: { id: conversationId },
       include: { participants: true }
     });
-    if (!conversation || !conversation.participants.some(u => u.id === userId)) {
+    if (!conversation || !conversation.participants.some((u: any) => u.id === userId)) {
       return res.status(403).json({ message: 'Немає доступу до цієї переписки' });
     }
     const message = await prisma.message.create({

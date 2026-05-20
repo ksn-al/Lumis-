@@ -37,8 +37,8 @@ export const getMe = async (req: any, res: Response) => {
     const posts = user.posts.map(post => ({
       ...post,
       likesCount: post.likes.length,
-      liked: post.likes.some(like => like.userId === userId),
-      favorited: post.favorites.some(fav => fav.userId === userId)
+      liked: post.likes.some((like: any) => like.userId === userId),
+      favorited: post.favorites.some((fav: any) => fav.userId === userId)
     }));
     res.status(200).json({
       user: {
@@ -176,7 +176,7 @@ export const getFollowers = async (req: Request, res: Response) => {
       where: { followingId: user.id },
       include: { follower: { select: { username: true, displayname: true, avatar: true } } }
     });
-    res.status(200).json(followers.map(f => f.follower));
+    res.status(200).json(followers.map((f: any) => f.follower));
   } catch (error) {
     res.status(500).json({ message: "Server error" });
   }
@@ -195,7 +195,7 @@ export const getFollowing = async (req: Request, res: Response) => {
       where: { followerId: user.id },
       include: { following: { select: { username: true, displayname: true, avatar: true } } }
     });
-    res.status(200).json(following.map(f => f.following));
+    res.status(200).json(following.map((f: any) => f.following));
   } catch (error) {
     res.status(500).json({ message: "Server error" });
   }
