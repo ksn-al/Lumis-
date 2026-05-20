@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "ts-node-dev --respawn src/index.ts",
     "build": "tsc",
+    "postbuild": "mkdir -p dist/utils && copy src\\utils\\logger.js dist\\utils\\logger.js",
     "start": "node dist/index.js"
   },
   "keywords": [],
