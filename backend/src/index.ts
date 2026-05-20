@@ -15,11 +15,7 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-  origin: [
-    "http://localhost:3000",
-    "http://192.168.10.49:3000",
-    "https://lumis-app.onrender.com"
-  ],
+  origin: true,
   credentials: true
 }));
 
