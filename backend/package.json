@@ -7,7 +7,8 @@
     "dev": "ts-node-dev --respawn src/index.ts",
     "build": "tsc",
     "postbuild": "mkdir -p dist/utils && cp src/utils/logger.js dist/utils/logger.js",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "prisma:generate": "prisma generate"
   },
   "keywords": [],
   "author": "",
