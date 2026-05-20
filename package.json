@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "react-router-dom": "^7.15.1",
+    "winston": "^3.19.0"
+  }
+}
