@@ -18,7 +18,7 @@ app.use(cors({
   origin: [
     "http://localhost:3000",
     "http://192.168.10.49:3000",
-    "https://lumis-app-1.onrender.com"
+    "https://lumis-app.onrender.com"
   ],
   credentials: true
 }));
