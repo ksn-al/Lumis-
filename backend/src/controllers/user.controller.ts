@@ -34,7 +34,7 @@ export const getMe = async (req: any, res: Response) => {
       return res.status(404).json({ message: "User not found" });
     }
     //  likesCount, liked, favorited для каждого поста
-    const posts = user.posts.map(post => ({
+    const posts = user.posts.map((post: any) => ({
       ...post,
       likesCount: post.likes.length,
       liked: post.likes.some((like: any) => like.userId === userId),
@@ -89,7 +89,7 @@ export const getProfile = async (req: Request, res: Response) => {
       return res.status(404).json({ message: "User not found" });
     }
     // Для профиля чужого пользователя: liked/favorited всегда false
-    const posts = user.posts.map(post => ({
+    const posts = user.posts.map((post: any) => ({
       ...post,
       likesCount: post.likes.length,
       liked: false,
