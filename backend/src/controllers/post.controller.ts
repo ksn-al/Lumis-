@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import prisma from "../utils/prisma";
-import { getIo, getUserSockets } from "../utils/socket";
+import { getIo } from "../utils/socket";
 import { uploadToCloudinary, deleteFromCloudinary } from "../utils/cloudinary";
 const logger = require("../utils/logger");
 
@@ -67,15 +67,11 @@ export const createPost = async (req: any, res: Response) => {
         });
 
         const io = getIo();
-        if (!io) return;                  
+        if (!io) return;
 
-        const sockets = getUserSockets();   
         for (const f of followers) {
-          const socketId = sockets.get(f.followerId);
-          if (!socketId) continue;          
-
-          io.to(socketId).emit('new-post', enriched);
-          io.to(socketId).emit('new-notification', {
+          io.to(f.followerId).emit('new-post', enriched);
+          io.to(f.followerId).emit('new-notification', {
             type:     'new_post',
             fromUser: enriched.user,
             postId:   post.id,
@@ -130,21 +126,18 @@ export const likePost = async (req: any, res: Response) => {
         });
         const io = getIo();
         if (io) {
-          const socketId = getUserSockets().get(post.userId);
-          if (socketId) {
-            const fromUser = await prisma.user.findUnique({
-              where:  { id: userId },
-              select: { id: true, username: true, displayname: true, avatar: true },
-            });
-            io.to(socketId).emit('new-notification', {
-              id:        notification.id,
-              type:      'new_like',
-              fromUser,
-              postId,
-              read:      false,
-              createdAt: notification.createdAt.toISOString(),
-            });
-          }
+          const fromUser = await prisma.user.findUnique({
+            where:  { id: userId },
+            select: { id: true, username: true, displayname: true, avatar: true },
+          });
+          io.to(post.userId).emit('new-notification', {
+            id:        notification.id,
+            type:      'new_like',
+            fromUser,
+            postId,
+            read:      false,
+            createdAt: notification.createdAt.toISOString(),
+          });
         }
       }
     } catch (err) {

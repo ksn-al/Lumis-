@@ -116,6 +116,12 @@ export const login = async (req: Request, res: Response) => {
   }
 };
 
+export const getSocketToken = (req: any, res: Response) => {
+  const secret    = process.env.JWT_SECRET as string;
+  const token     = jwt.sign({ userId: req.userId }, secret, { expiresIn: '1h' });
+  res.json({ token });
+};
+
 export const logout = (req: Request, res: Response) => {
   const isProd = process.env.NODE_ENV === 'production';
   res.clearCookie('token', {

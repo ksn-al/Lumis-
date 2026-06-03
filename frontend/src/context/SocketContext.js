@@ -10,13 +10,48 @@ export function SocketProvider({ children }) {
   const socketRef = useRef(null);
 
   useEffect(() => {
-    const s = io(SOCKET_URL, { withCredentials: true });
-    socketRef.current = s;
-    setSocket(s);
+    let destroyed = false;
+
+    const connect = async () => {
+      try {
+        const res = await fetch(`${SOCKET_URL}/auth/socket-token`, {
+          credentials: 'include',
+        });
+        if (!res.ok || destroyed) return;
+        const { token } = await res.json();
+
+        const s = io(SOCKET_URL, {
+          withCredentials: true,
+          auth: { token },
+          transports: ['websocket', 'polling'],
+        });
+
+        s.on('connect_error', async (err) => {
+          if (err.message === 'Invalid or expired token') {
+            try {
+              const r = await fetch(`${SOCKET_URL}/auth/socket-token`, { credentials: 'include' });
+              if (!r.ok) return;
+              const { token: newToken } = await r.json();
+              s.auth = { token: newToken };
+              s.connect();
+            } catch {}
+          }
+        });
+
+        socketRef.current = s;
+        setSocket(s);
+      } catch {}
+    };
+
+    connect();
 
     return () => {
-      s.disconnect();
-      socketRef.current = null;
+      destroyed = true;
+      if (socketRef.current) {
+        socketRef.current.disconnect();
+        socketRef.current = null;
+      }
+      setSocket(null);
     };
   }, []);
 

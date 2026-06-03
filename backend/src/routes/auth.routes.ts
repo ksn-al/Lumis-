@@ -10,7 +10,9 @@ import {
   verifyEmail,
   resendVerification,
   googleCallback,
+  getSocketToken,
 } from '../controllers/auth.controller';
+import { authMiddleware } from '../middleware/auth.middleware';
 
 const router = Router();
 
@@ -45,6 +47,7 @@ router.post('/forgot-password',      forgotPasswordLimiter, forgotPassword);
 router.post('/reset-password',       resetPassword);
 router.post('/resend-verification',  forgotPasswordLimiter, resendVerification);
 router.get('/verify',                verifyEmail);
+router.get('/socket-token',          authMiddleware,        getSocketToken);
 
 // Google OAuth2 
 router.get(

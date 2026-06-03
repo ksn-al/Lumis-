@@ -26,9 +26,10 @@ export function initSocket(httpServer: HttpServer) {
 
   io.use((socket: any, next) => {
     try {
+      const authToken = socket.handshake.auth?.token;
       const cookieHeader = socket.handshake.headers.cookie || '';
       const cookies = parseCookies(cookieHeader);
-      const token = cookies.token;
+      const token = authToken || cookies.token;
       if (!token) return next(new Error('Authentication required'));
 
       const secret = process.env.JWT_SECRET as string;
