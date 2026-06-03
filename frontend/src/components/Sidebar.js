@@ -43,11 +43,17 @@ export default function Sidebar() {
       if (notif?.type !== 'new_message') setUnreadNotifs(prev => prev + 1);
     };
     const handleMessage = () => setUnreadMessages(prev => prev + 1);
+    const handleReconnect = () => {
+      apiRequest('/notifications/unread-count').then(d => setUnreadNotifs(d.count || 0)).catch(() => {});
+      apiRequest('/messages/unread-count').then(d => setUnreadMessages(d.count || 0)).catch(() => {});
+    };
     socket.on('new-notification', handleNotif);
     socket.on('new-message',      handleMessage);
+    socket.on('connect',          handleReconnect);
     return () => {
       socket.off('new-notification', handleNotif);
       socket.off('new-message',      handleMessage);
+      socket.off('connect',          handleReconnect);
     };
   }, [socket]);
 

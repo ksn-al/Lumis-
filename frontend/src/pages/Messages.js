@@ -59,7 +59,16 @@ function Messages() {
       );
     };
     socket.on('new-message', handleNewMessage);
-    return () => socket.off('new-message', handleNewMessage);
+    const handleReconnect = () => {
+      apiRequest('/messages/conversations')
+        .then(data => setConversations(Array.isArray(data) ? data : []))
+        .catch(() => {});
+    };
+    socket.on('connect', handleReconnect);
+    return () => {
+      socket.off('new-message', handleNewMessage);
+      socket.off('connect', handleReconnect);
+    };
   }, [socket]);
 
   

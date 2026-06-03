@@ -11,42 +11,60 @@ export function SocketProvider({ children }) {
 
   useEffect(() => {
     let destroyed = false;
+    let retryTimeout = null;
 
-    const connect = async () => {
+    const connect = async (attempt = 0) => {
+      if (destroyed || socketRef.current) return;
+
+      let token = null;
       try {
-        const res = await fetch(`${SOCKET_URL}/auth/socket-token`, {
-          credentials: 'include',
-        });
-        if (!res.ok || destroyed) return;
-        const { token } = await res.json();
+        const res = await fetch(`${SOCKET_URL}/auth/socket-token`, { credentials: 'include' });
+        if (res.ok) {
+          const data = await res.json();
+          token = data.token;
+        } else if (res.status === 401 || res.status === 403) {
+          return; // not authenticated, don't retry
+        } else if (!destroyed && attempt < 5) {
+          retryTimeout = setTimeout(() => connect(attempt + 1), Math.min(2000 * (attempt + 1), 15000));
+          return;
+        }
+      } catch {
+        if (!destroyed && attempt < 5) {
+          retryTimeout = setTimeout(() => connect(attempt + 1), Math.min(2000 * (attempt + 1), 15000));
+        }
+        return;
+      }
 
-        const s = io(SOCKET_URL, {
-          withCredentials: true,
-          auth: { token },
-          transports: ['websocket', 'polling'],
-        });
+      if (destroyed) return;
 
-        s.on('connect_error', async (err) => {
-          if (err.message === 'Invalid or expired token') {
-            try {
-              const r = await fetch(`${SOCKET_URL}/auth/socket-token`, { credentials: 'include' });
-              if (!r.ok) return;
-              const { token: newToken } = await r.json();
-              s.auth = { token: newToken };
-              s.connect();
-            } catch {}
+      const s = io(SOCKET_URL, {
+        withCredentials: true,
+        ...(token ? { auth: { token } } : {}),
+        transports: ['websocket', 'polling'],
+        reconnectionAttempts: Infinity,
+        reconnectionDelay: 2000,
+        reconnectionDelayMax: 10000,
+      });
+
+      s.on('connect_error', async () => {
+        try {
+          const r = await fetch(`${SOCKET_URL}/auth/socket-token`, { credentials: 'include' });
+          if (r.ok) {
+            const { token: newToken } = await r.json();
+            s.auth = { token: newToken };
           }
-        });
+        } catch {}
+      });
 
-        socketRef.current = s;
-        setSocket(s);
-      } catch {}
+      socketRef.current = s;
+      setSocket(s);
     };
 
     connect();
 
     return () => {
       destroyed = true;
+      clearTimeout(retryTimeout);
       if (socketRef.current) {
         socketRef.current.disconnect();
         socketRef.current = null;

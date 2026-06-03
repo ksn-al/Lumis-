@@ -31,10 +31,14 @@ function Notifications() {
   const navigate  = useNavigate();
 
   useEffect(() => {
-    apiRequest('/notifications')
-      .then(data => setNotifications(Array.isArray(data) ? data : []))
-      .catch(() => setNotifications([]))
-      .finally(() => setLoading(false));
+    const load = () =>
+      apiRequest('/notifications')
+        .then(data => setNotifications(Array.isArray(data) ? data : []))
+        .catch(() => setNotifications([]))
+        .finally(() => setLoading(false));
+    load();
+    const interval = setInterval(load, 30000);
+    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
@@ -50,8 +54,16 @@ function Notifications() {
         }, ...prev];
       });
     };
+    const handleReconnect = () =>
+      apiRequest('/notifications')
+        .then(data => setNotifications(Array.isArray(data) ? data : []))
+        .catch(() => {});
     socket.on('new-notification', handleNotif);
-    return () => socket.off('new-notification', handleNotif);
+    socket.on('connect', handleReconnect);
+    return () => {
+      socket.off('new-notification', handleNotif);
+      socket.off('connect', handleReconnect);
+    };
   }, [socket]);
 
   const markAllRead = async () => {
