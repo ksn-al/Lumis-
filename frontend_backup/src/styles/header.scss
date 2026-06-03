@@ -1,146 +1,103 @@
+// ═══════════════════════════════════════
+// TOP HEADER — Search bar only
+// ═══════════════════════════════════════
+
 .app-header {
+  @include glass(24px, 0.82);
+  border-bottom: 1px solid $border;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  background: $card;
-  border-bottom: 1.5px solid $border;
-  padding: 0 32px 0 0;
-  min-height: 64px;
-  box-shadow: 0 2px 8px rgba(99,102,241,0.06);
+  justify-content: center;
+  padding: 0 24px;
+  height: 58px;
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 150;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25), 0 1px 0 rgba($purple-light, 0.08);
 }
 
-.app-nav {
+// ── Search form ─────────────────────────
+
+.header-search-form {
   display: flex;
-  flex-direction: row;
   align-items: center;
-  gap: 0;
-  margin-left: 32px;
-  min-width: 160px;
-}
-
-.app-nav a {
-  color: $accent;
-  font-weight: 600;
-  font-size: 1.13rem;
-  text-decoration: none;
-  padding: 8px 18px;
-  border-radius: 8px 0 0 8px;
-  transition: background 0.15s, color 0.15s;
-  margin-right: 2px;
+  width: 100%;
+  max-width: 540px;
   position: relative;
 }
-.app-nav a:not(:last-child)::after {
-  content: "";
-  display: inline-block;
-  width: 1px;
-  height: 22px;
-  background: $border;
-  margin-left: 8px;
-  vertical-align: middle;
+
+.header-search-icon {
   position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  left: 14px;
+  color: $text-muted;
+  pointer-events: none;
+  flex-shrink: 0;
+  transition: color $t-fast;
 }
 
-.app-nav a:hover, .app-nav a.active {
-  background: $accent;
-  color: #fff;
-}
-
-.search-form {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex: 1 1 auto;
-  margin: 0 32px;
-  min-width: 320px;
-}
-
-.search-input {
-  padding: 0 12px;
-  border: 1.5px solid $border;
-  border-radius: 8px 0 0 8px;
-  font-size: 1.08rem;
-  outline: none;
-  background: $input-bg;
-  color: $text;
-  min-width: 180px;
+.header-search-input {
+  @include input-neon;
+  flex: 1;
   height: 40px;
-  transition: border 0.15s;
-  box-sizing: border-box;
+  padding: 0 110px 0 40px;   // space for icon left, button right
+  border-radius: $r-full;
+  font-size: 0.9rem;
+  width: 100%;
+
+  &:focus {
+    border-color: $purple-light;
+    box-shadow: 0 0 0 3px rgba($purple-primary, 0.15), $glow-sm;
+
+    ~ .header-search-icon { color: $purple-light; }
+  }
+
+  &:focus + .header-search-icon {
+    color: $purple-light;
+  }
 }
 
-.search-input:focus {
-  border-color: $accent;
+// Style the icon when input is focused — using :focus-within on the form
+.header-search-form:focus-within .header-search-icon {
+  color: $purple-light;
 }
 
-.search-button {
-  height: 40px;
+.header-search-btn {
+  position: absolute;
+  right: 4px;
+  height: 32px;
   padding: 0 18px;
-  border: 1.5px solid $accent;
-  border-radius: 0 8px 8px 0;
-  background: $accent;
+  background: linear-gradient(135deg, $purple-primary, $purple-mid);
+  border: none;
+  border-radius: $r-full;
   color: #fff;
-  font-weight: 600;
-  font-size: 1.08rem;
+  font-weight: 700;
+  font-size: 0.82rem;
   cursor: pointer;
-  transition: background 0.15s, color 0.15s;
-  box-sizing: border-box;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  transition: box-shadow $t-normal, background $t-normal;
+  white-space: nowrap;
+
+  &:hover {
+    background: linear-gradient(135deg, $purple-mid, $pink-hot);
+    box-shadow: $glow-sm;
+  }
 }
 
-.search-button:hover {
-  background: $accent-hover;
-}
+// ── Responsive ──────────────────────────
 
-.header-user-info {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-left: 24px;
-}
+@media (max-width: 560px) {
+  .app-header {
+    padding: 0 12px;
+  }
 
-.header-avatar {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 1.5px solid $accent;
-}
+  .header-search-form {
+    max-width: 100%;
+  }
 
-.header-username {
-  color: $accent;
-  font-weight: 600;
-  font-size: 1.08rem;
-}
+  .header-search-btn {
+    display: none;
+  }
 
-.logout-button {
-  background: #fff;
-  color: $accent;
-  border: 1.5px solid $accent;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 1.02rem;
-  padding: 0 18px;
-  height: 40px;
-  line-height: 40px;
-  margin-left: 32px;
-  cursor: pointer;
-  transition: background 0.15s, color 0.15s;
-  min-width: 80px;
-  box-sizing: border-box;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.logout-button:hover {
-  background: $accent;
-  color: #fff;
+  .header-search-input {
+    padding-right: 14px;
+  }
 }

@@ -1,327 +1,377 @@
-@import "../styles/variables";
+// ═══════════════════════════════════════
+// MESSAGES — variables imported via index.scss
+// ═══════════════════════════════════════
+
 .messages-page {
-  width: 100%;
-  max-width: 1050px;
-  height: calc(100vh - 110px);
-
-  margin: 32px auto;
-  padding: 0;
-
   display: grid;
-  grid-template-columns: 320px 1fr;
-
-  background: $card;
-  border: 1px solid $border;
-  border-radius: 28px;
-
-  overflow: hidden;
-
-  box-shadow: 0 18px 45px rgba(31, 41, 51, 0.08);
-}
-.new-dialog-panel {
-  flex: 1;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  padding: 24px;
-}
-
-.new-dialog-form {
+  grid-template-columns: 300px 1fr;
   width: 100%;
-  max-width: 520px;
-
-  flex-direction: column;
-  align-items: stretch;
-
-  border: 1px solid $border;
-  border-radius: 24px;
-
-  box-shadow: 0 18px 45px rgba(31, 41, 51, 0.06);
+  max-width: 1080px;
+  height: calc(100vh - 90px);
+  margin: 20px auto;
+  padding: 0 16px;
+  gap: 16px;
 }
 
-.new-dialog-title {
-  margin-bottom: 4px;
-
-  color: $text;
-
-  font-size: 1rem;
-  font-weight: 600;
-}
+// ── Conversations sidebar ───────────────
 
 .conversations-list {
-  background: #f8faf7;
-  border-right: 1px solid $border;
-
+  @include glass(20px, 0.65);
+  @include neon-border;
+  border-radius: $r-xl;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+  box-shadow: $shadow-card;
+  animation: fadeInUp 0.4s ease both;
 }
 
 .conversations-header {
-  padding: 22px 22px 16px;
-
-  color: $text;
-
-  font-size: 1.25rem;
+  padding: 22px 20px 14px;
+  font-size: 1.2rem;
   font-weight: 800;
-}
-
-.conversations-title {
-  display: none;
+  background: $grad-primary;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  border-bottom: 1px solid $border;
+  flex-shrink: 0;
 }
 
 .conversations-items {
-  margin: 0;
-  padding: 8px 12px 16px;
-
+  flex: 1;
   list-style: none;
-
+  padding: 10px 10px 14px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-
+  gap: 4px;
   overflow-y: auto;
+  @include scrollbar;
 }
 
 .conversation-item {
-  padding: 12px;
-
   display: flex;
   align-items: center;
   gap: 12px;
-
-  border-radius: 18px;
-
+  padding: 10px 12px;
+  border-radius: $r-md;
+  border: 1px solid transparent;
   cursor: pointer;
-  transition: 0.2s ease;
+  transition: all $t-fast;
 
   &:hover {
-    background: #ffffff;
+    background: rgba($purple-primary, 0.08);
+    border-color: rgba($purple-primary, 0.2);
   }
 
   &.active {
-    background: #ffffff;
-    box-shadow: 0 10px 22px rgba(31, 41, 51, 0.06);
+    background: rgba($purple-primary, 0.14);
+    border-color: rgba($purple-primary, 0.35);
+    box-shadow: $glow-sm;
   }
 }
 
 .conversation-avatar {
   width: 44px;
   height: 44px;
-
-  flex-shrink: 0;
-
   border-radius: 50%;
-
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  background: rgba(107, 143, 113, 0.14);
-  color: $accent;
-
   font-weight: 800;
+  font-size: 0.95rem;
+  color: #fff;
+  background: $grad-primary;
+  border: 2px solid rgba($purple-primary, 0.4);
+  box-shadow: $glow-sm;
+  overflow: hidden;
   text-transform: uppercase;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
 }
 
 .conversation-info {
+  flex: 1;
   min-width: 0;
 }
 
 .conversation-name {
-  color: $text;
-
-  font-size: 0.96rem;
+  font-size: 0.92rem;
   font-weight: 700;
-
+  color: $text;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .conversation-last-message {
-  margin-top: 4px;
-
-  color: $text-secondary;
-
-  font-size: 0.86rem;
-
+  font-size: 0.8rem;
+  color: $text-muted;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin-top: 2px;
 }
 
-.conversation-messages {
-  min-width: 0;
+// Active dot indicator
+.conversation-unread {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: $pink-hot;
+  box-shadow: 0 0 6px rgba($pink-hot, 0.7);
+  flex-shrink: 0;
+  animation: unread-ping 2s ease-in-out infinite;
+}
 
+// ── Chat area ───────────────────────────
+
+.conversation-messages {
+  @include glass(20px, 0.65);
+  @include neon-border;
+  border-radius: $r-xl;
   display: flex;
   flex-direction: column;
-
-  background: #ffffff;
+  overflow: hidden;
+  box-shadow: $shadow-card;
+  animation: fadeInUp 0.4s ease 0.05s both;
 }
 
 .messages-list {
   flex: 1;
-
-  padding: 24px;
-
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-
+  gap: 10px;
   overflow-y: auto;
+  @include scrollbar;
+}
+
+// "Load older messages" button that appears at the top of the chat
+.messages-load-older {
+  display: flex;
+  justify-content: center;
+  padding: 4px 0 8px;
+}
+
+.messages-load-older-btn {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.75rem;
+  padding: 4px 14px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.55);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+
+  &:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
 }
 
 .message-item {
-  max-width: 72%;
-
-  padding: 12px 14px;
-
+  max-width: 70%;
   align-self: flex-start;
+  animation: fadeInUp 0.25s ease both;
 
-  background: #f8faf7;
+  &-bubble {
+    padding: 10px 14px;
+    background: rgba($bg-deep, 0.6);
+    border: 1px solid $border;
+    border-radius: 16px 16px 16px 4px;
+    color: $text;
+    font-size: 0.94rem;
+    line-height: 1.5;
+    word-break: break-word;
+  }
+
+  &-me {
+    align-self: flex-end;
+
+    .message-item-bubble {
+      background: linear-gradient(135deg,
+        rgba($purple-primary, 0.25),
+        rgba($pink-hot, 0.15));
+      border-color: rgba($purple-light, 0.3);
+      border-radius: 16px 16px 4px 16px;
+    }
+  }
+}
+
+// Flat message layout (existing classes)
+.message-item {
+  max-width: 70%;
+  align-self: flex-start;
+  padding: 10px 14px;
+  background: rgba($bg-deep, 0.55);
   border: 1px solid $border;
-  border-radius: 18px 18px 18px 6px;
-
+  border-radius: 16px 16px 16px 4px;
   color: $text;
-
-  box-shadow: 0 6px 16px rgba(31, 41, 51, 0.04);
+  word-break: break-word;
 }
 
 .message-item-me {
   align-self: flex-end;
-
-  background: rgba(107, 143, 113, 0.14);
-  border-color: rgba(107, 143, 113, 0.22);
-
-  border-radius: 18px 18px 6px 18px;
+  background: linear-gradient(135deg,
+    rgba($purple-primary, 0.22),
+    rgba($pink-hot, 0.12));
+  border-color: rgba($purple-light, 0.28);
+  border-radius: 16px 16px 4px 16px;
 }
 
 .message-author {
-  margin-bottom: 4px;
-
-  color: $accent;
-
-  font-size: 0.78rem;
+  font-size: 0.76rem;
   font-weight: 800;
+  color: $purple-light;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .message-text {
-  font-size: 0.98rem;
-  line-height: 1.45;
+  font-size: 0.93rem;
+  line-height: 1.5;
 }
 
 .message-date {
-  margin-top: 6px;
-
-  color: $text-secondary;
-
-  font-size: 0.72rem;
+  font-size: 0.7rem;
+  color: $text-muted;
   text-align: right;
+  margin-top: 5px;
 }
 
-.message-input-form {
-  margin: 0;
-  padding: 16px;
+// ── Input area ──────────────────────────
 
+.message-input-form {
   display: flex;
   align-items: center;
-  gap: 12px;
-
-  background: #ffffff;
+  gap: 10px;
+  padding: 14px 18px;
   border-top: 1px solid $border;
+  background: rgba($bg-deep, 0.4);
+  flex-shrink: 0;
 }
 
 .message-input {
+  @include input-neon;
   flex: 1;
   min-width: 0;
-  height: 48px;
-
+  height: 46px;
   padding: 0 16px;
-
-  border: 1px solid $border;
-  border-radius: 16px;
-
-  background: #f8faf7;
-  color: $text;
-
-  font-size: 1rem;
-  outline: none;
-
-  transition: 0.2s ease;
-
-  &:focus {
-    background: #ffffff;
-    border-color: $accent;
-    box-shadow: 0 0 0 4px rgba(107, 143, 113, 0.12);
-  }
+  font-size: 0.95rem;
+  font-family: inherit;
 }
 
 .message-send-button {
-  height: 48px;
-  padding: 0 20px;
-
-  border: none;
-  border-radius: 16px;
-
-  background: $accent;
-  color: #ffffff;
-
-  font-size: 0.95rem;
-  font-weight: 700;
-
-  cursor: pointer;
-  transition: 0.22s ease;
-
-  &:hover {
-    background: $accent-hover;
-    transform: translateY(-1px);
-  }
+  @include btn-neon($purple-primary, $pink-hot);
+  height: 46px;
+  padding: 0 22px;
+  font-size: 0.9rem;
+  border-radius: $r-md;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
+
+// ── Empty / New conversation ─────────────
 
 .messages-empty {
   flex: 1;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
-  padding: 24px;
-
-  color: $text-secondary;
+  color: $text-muted;
+  font-size: 0.95rem;
   text-align: center;
+  flex-direction: column;
+  gap: 12px;
+
+  &::before {
+    content: '💬';
+    font-size: 2.5rem;
+    opacity: 0.5;
+  }
 }
 
-@media (max-width: 760px) {
+.new-conversation-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.new-conversation-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 20px;
+  border-bottom: 1px solid $border;
+}
+
+.new-conversation-user {
+  font-weight: 700;
+  font-size: 1rem;
+  background: $grad-primary;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.new-conversation-empty {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $text-muted;
+  font-size: 0.9rem;
+}
+
+.loading-message,
+.error-message {
+  padding: 8px 14px;
+  font-size: 0.85rem;
+  text-align: center;
+  color: $text-muted;
+}
+
+// ── Responsive ──────────────────────────
+
+@media (max-width: 768px) {
   .messages-page {
+    grid-template-columns: 1fr;
     height: auto;
     min-height: calc(100vh - 90px);
-
-    grid-template-columns: 1fr;
-
-    margin: 20px auto;
-    border-radius: 22px;
+    padding: 0 10px 20px;
+    gap: 12px;
   }
 
   .conversations-list {
-    border-right: none;
-    border-bottom: 1px solid $border;
+    max-height: 240px;
   }
 
-  .conversations-items {
-    max-height: 220px;
+  .conversation-messages {
+    min-height: 400px;
   }
 
-  .message-item {
-    max-width: 86%;
-  }
+  .message-item { max-width: 88%; }
 
   .message-input-form {
     flex-direction: column;
+    padding: 12px;
   }
 
-  .message-send-button {
-    width: 100%;
-  }
+  .message-send-button { width: 100%; }
 }

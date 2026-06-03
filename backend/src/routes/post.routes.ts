@@ -1,25 +1,37 @@
 import { Router } from 'express';
-import multer from 'multer';
 import {
-	createPost,
-	deletePost,
-	likePost,
-	getFeed,
-	searchPosts,
-	toggleFavorite,
-	getFavorites
+  createPost,
+  deletePost,
+  likePost,
+  getFeed,
+  searchPosts,
+  toggleFavorite,
+  getFavorites,
 } from '../controllers/post.controller';
-import { authMiddleware } from '../middleware/auth.middleware';
+import {
+  getComments,
+  createComment,
+  likeComment,
+  deleteComment,
+} from '../controllers/comment.controller';
+import { authMiddleware, optionalAuth } from '../middleware/auth.middleware';
+import { uploadPostImage } from '../middleware/upload.middleware';
 
-const upload = multer({ dest: 'uploads/' });
 const router = Router();
 
-router.get('/feed', authMiddleware, getFeed);
-router.get('/search', searchPosts);
-router.post('/', authMiddleware, upload.single('image'), createPost);
-router.delete('/:id', authMiddleware, deletePost);
-router.post('/:id/like', authMiddleware, likePost);
-router.post('/:id/favorite', authMiddleware, toggleFavorite);
+// Post routes (static paths first, then parameterised)
+router.get('/feed',      authMiddleware, getFeed);
+router.get('/search',    searchPosts);
 router.get('/favorites', authMiddleware, getFavorites);
+router.post('/',         authMiddleware, uploadPostImage, createPost);
+router.delete('/:id',    authMiddleware, deletePost);
+router.post('/:id/like',     authMiddleware, likePost);
+router.post('/:id/favorite', authMiddleware, toggleFavorite);
+
+// Comment routes
+router.get('/:postId/comments',           optionalAuth,    getComments);
+router.post('/:postId/comments',          authMiddleware,  createComment);
+router.post('/comments/:commentId/like',  authMiddleware,  likeComment);
+router.delete('/comments/:commentId',     authMiddleware,  deleteComment);
 
 export default router;

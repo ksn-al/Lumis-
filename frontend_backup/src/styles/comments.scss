@@ -1,0 +1,294 @@
+// ═══════════════════════════════════════
+// COMMENTS SYSTEM
+// ═══════════════════════════════════════
+
+// ── Comment toggle button (inside Post) ─
+
+.post-comment-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  border-radius: $r-sm !important;
+  color: $text-secondary !important;
+  font-size: 0.88rem !important;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all $t-fast !important;
+  box-shadow: none !important;
+  outline: none !important;
+
+  svg {
+    width: 18px !important;
+    height: 18px !important;
+    transition: transform $t-fast, color $t-fast;
+  }
+
+  &:hover {
+    background: rgba($purple-primary, 0.1) !important;
+    border-color: rgba($purple-primary, 0.25) !important;
+    color: $purple-light !important;
+    svg { transform: scale(1.2); }
+  }
+
+  &.active {
+    color: $purple-light !important;
+    background: rgba($purple-primary, 0.1) !important;
+    border-color: rgba($purple-primary, 0.3) !important;
+  }
+}
+
+// ── Comments drawer wrapper ──────────────
+
+.post-comments-wrap {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid $border;
+  animation: fadeInUp 0.25s ease both;
+}
+
+// ── Section container ───────────────────
+
+.comments-section {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+// ── Input form ──────────────────────────
+
+.comment-form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.comment-input {
+  @include input-neon;
+  flex: 1;
+  height: 38px;
+  padding: 0 14px;
+  border-radius: $r-full;
+  font-size: 0.88rem;
+
+  &:focus {
+    border-color: $purple-light;
+    box-shadow: 0 0 0 3px rgba($purple-primary, 0.12), $glow-sm;
+  }
+}
+
+.comment-submit {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: $grad-primary;
+  border: none;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: box-shadow $t-fast, transform $t-fast, opacity $t-fast;
+
+  &:hover:not(:disabled) {
+    box-shadow: $glow-sm;
+    transform: scale(1.08);
+  }
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  &.loading svg {
+    animation: spin-slow 0.8s linear infinite;
+  }
+}
+
+.comment-error {
+  font-size: 0.8rem;
+  color: $error;
+  padding: 6px 10px;
+  background: rgba($error, 0.08);
+  border-radius: $r-sm;
+  border: 1px solid rgba($error, 0.2);
+}
+
+// ── Spinner icon ────────────────────────
+
+.spin-icon {
+  animation: spin-slow 0.8s linear infinite;
+}
+
+// ── List ────────────────────────────────
+
+.comments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.comments-loading {
+  display: flex;
+  justify-content: center;
+  padding: 12px;
+  color: $text-muted;
+}
+
+.comments-empty {
+  font-size: 0.85rem;
+  color: $text-muted;
+  text-align: center;
+  padding: 10px 0;
+  font-style: italic;
+}
+
+// ── Single comment ──────────────────────
+
+.comment-item {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  animation: fadeInUp 0.2s ease both;
+}
+
+.comment-avatar-col {
+  flex-shrink: 0;
+}
+
+.comment-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid rgba($purple-primary, 0.4);
+  box-shadow: 0 0 6px rgba($purple-primary, 0.2);
+}
+
+.comment-avatar-placeholder {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: $grad-primary;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.72rem;
+  color: #fff;
+  border: 1px solid rgba($purple-light, 0.3);
+}
+
+// ── Comment bubble ──────────────────────
+
+.comment-body {
+  flex: 1;
+  min-width: 0;
+  @include glass(12px, 0.5);
+  border: 1px solid rgba($purple-primary, 0.12);
+  border-radius: 0 $r-md $r-md $r-md;
+  padding: 9px 13px 8px;
+  transition: border-color $t-fast;
+
+  &:hover {
+    border-color: rgba($purple-primary, 0.22);
+  }
+}
+
+.comment-meta {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  flex-wrap: wrap;
+  margin-bottom: 5px;
+}
+
+.comment-name {
+  font-weight: 700;
+  font-size: 0.84rem;
+  color: $text;
+}
+
+.comment-username {
+  font-size: 0.76rem;
+  color: $text-muted;
+}
+
+.comment-dot {
+  color: $text-muted;
+  font-size: 0.72rem;
+}
+
+.comment-date {
+  font-size: 0.74rem;
+  color: $text-muted;
+  margin-left: auto;
+}
+
+.comment-text {
+  font-size: 0.9rem;
+  color: $text;
+  line-height: 1.55;
+  word-break: break-word;
+  white-space: pre-wrap;
+  margin-bottom: 7px;
+}
+
+// ── Comment actions ─────────────────────
+
+.comment-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.comment-like-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: none;
+  color: $text-muted;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 3px 7px;
+  border-radius: $r-sm;
+  transition: all $t-fast;
+
+  &:hover {
+    color: $pink-light;
+    background: rgba($pink-hot, 0.08);
+  }
+
+  &.liked {
+    color: $pink-hot;
+
+    &:hover { color: $pink-light; }
+  }
+}
+
+.comment-like-count {
+  font-size: 0.75rem;
+}
+
+.comment-delete-btn {
+  display: inline-flex;
+  align-items: center;
+  background: transparent;
+  border: none;
+  color: $text-muted;
+  cursor: pointer;
+  padding: 3px 7px;
+  border-radius: $r-sm;
+  transition: all $t-fast;
+
+  &:hover {
+    color: $error;
+    background: rgba($error, 0.08);
+  }
+}

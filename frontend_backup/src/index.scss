@@ -1,12 +1,29 @@
-@import "./styles/main.scss";
-@import "./styles/variables.scss";
-@import "./styles/header.scss";
-@import "./styles/auth.scss";
-@import "./styles/forgotpassword.scss";
-@import "./styles/login.scss";
-@import "./styles/register.scss";
-@import "./styles/feed.scss";
-@import "./styles/favorite.scss";
-@import "./styles/post.scss";
-@import "./styles/profile-modern.scss";
-@import "./styles/search.scss";
+// ═══════════════════════════════════════
+// ENTRY POINT — imports
+// ═══════════════════════════════════════
+
+// 1. Variables & mixins FIRST (no output, just definitions)
+@import './styles/variables';
+
+// 2. Global base + keyframes
+@import './styles/main';
+
+// 3. Layout components
+@import './styles/header';
+@import './styles/sidebar';
+
+// 4. Auth pages
+@import './styles/auth';
+@import './styles/login';
+@import './styles/register';
+@import './styles/forgotpassword';
+
+// 5. App pages
+@import './styles/feed';
+@import './styles/post';
+@import './styles/comments';
+@import './styles/favorite';
+@import './styles/profile-modern';
+@import './styles/search';
+@import './styles/messages';
+@import './styles/notifications';

@@ -1,71 +1,248 @@
+// ═══════════════════════════════════════
+// POST CARD
+// ═══════════════════════════════════════
+
+.post {
+  @include glass(16px, 0.6);
+  @include neon-border;
+  border-radius: $r-xl;
+  padding: 20px 22px 16px;
+  box-shadow: $shadow-card;
+  animation: fadeInUp 0.4s ease both;
+  transition: box-shadow $t-normal, border-color $t-normal, transform $t-normal;
+  position: relative;
+  overflow: hidden;
+
+  // Subtle gradient accent line on top
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba($purple-primary, 0.4), rgba($pink-hot, 0.4), transparent);
+    opacity: 0;
+    transition: opacity $t-normal;
+  }
+
+  &:hover {
+    border-color: rgba($purple-primary, 0.35);
+    box-shadow: $shadow-card, 0 0 25px rgba($purple-primary, 0.08);
+    transform: translateY(-2px);
+
+    &::before { opacity: 1; }
+  }
+}
+
+// ── Post header ─────────────────────────
+
+.post-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.post-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba($purple-primary, 0.5);
+  box-shadow: 0 0 10px rgba($purple-primary, 0.3);
+  flex-shrink: 0;
+  transition: box-shadow $t-normal;
+
+  &:hover { box-shadow: $glow-md; }
+}
+
+.post-avatar-placeholder {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: $grad-primary;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.9rem;
+  color: #fff;
+  flex-shrink: 0;
+  border: 2px solid rgba($purple-light, 0.4);
+  box-shadow: $glow-sm;
+}
+
+.post-header-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.post-displayname {
+  font-weight: 700;
+  font-size: 0.97rem;
+  color: $text;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.post-username {
+  font-size: 0.82rem;
+  color: $text-muted;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// ── Post body ───────────────────────────
+
+.post-text {
+  font-size: 0.97rem;
+  line-height: 1.65;
+  color: $text;
+  margin-bottom: 14px;
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+
+.post-image {
+  width: 100%;
+  max-height: 400px;
+  border-radius: $r-md;
+  object-fit: cover;
+  margin-bottom: 14px;
+  border: 1px solid $border;
+  transition: transform $t-normal;
+
+  &:hover { transform: scale(1.01); }
+}
+
+// ── Post actions ────────────────────────
+
+.post-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding-top: 12px;
+  border-top: 1px solid rgba($border, 0.5);
+}
 
 .post-like-button,
-.post-favorite-button {
-  background: none !important;
-  border: none !important;
-  box-shadow: none !important;
-  outline: none !important;
-  padding: 0;
-  margin-right: 14px;
+.post-favorite-button,
+.post-comment-button {
   display: inline-flex;
   align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  border-radius: $r-sm !important;
+  color: $text-secondary !important;
+  font-size: 0.88rem !important;
+  font-weight: 600;
   cursor: pointer;
-  opacity: 1;
-  color: #22223b;
-  transition: color 0.18s;
+  transition: all $t-fast !important;
+  box-shadow: none !important;
+  outline: none !important;
+
+  svg {
+    width: 18px !important;
+    height: 18px !important;
+    transition: transform $t-fast, color $t-fast;
+  }
+
+  &:hover {
+    background: rgba($purple-primary, 0.1) !important;
+    border-color: rgba($purple-primary, 0.25) !important;
+    color: $purple-light !important;
+    transform: none !important;
+    box-shadow: none !important;
+
+    svg { transform: scale(1.2); }
+  }
+}
+
+.post-comment-button.active {
+  color: $purple-light !important;
+  background: rgba($purple-primary, 0.1) !important;
+  border-color: rgba($purple-primary, 0.28) !important;
 }
 
 .post-like-button.liked {
-  color: #e91e63;
+  color: $pink-hot !important;
+  border-color: rgba($pink-hot, 0.2) !important;
+  background: rgba($pink-hot, 0.06) !important;
+
+  &:hover {
+    background: rgba($pink-hot, 0.12) !important;
+    border-color: rgba($pink-hot, 0.35) !important;
+    color: $pink-light !important;
+  }
+  svg { color: $pink-hot !important; }
 }
+
 .post-favorite-button.favorited {
-  color: #fbc02d;
-}
-.post-like-button:hover,
-.post-favorite-button:hover {
-  color: #1976d2;
-  background: none !important;
-  border: none !important;
-  box-shadow: none !important;
-  outline: none !important;
+  color: $purple-soft !important;
+  border-color: rgba($purple-soft, 0.25) !important;
+  background: rgba($purple-primary, 0.08) !important;
+
+  &:hover {
+    background: rgba($purple-primary, 0.14) !important;
+    border-color: rgba($purple-soft, 0.4) !important;
+    color: $purple-soft !important;
+  }
+  svg { color: $purple-soft !important; }
 }
 
-// Убираем заливку и любые эффекты у svg-иконок MUI
+// MUI icon overrides
 .post-like-button .MuiSvgIcon-root,
 .post-favorite-button .MuiSvgIcon-root {
-  fill: none !important;
-  stroke: currentColor !important;
-  box-shadow: none !important;
-  filter: none !important;
-  outline: none !important;
-  background: none !important;
-  border: none !important;
-}
-
-// Убираем заливку у svg-иконок MUI при hover/active
-.post-like-button .MuiSvgIcon-root,
-.post-favorite-button .MuiSvgIcon-root {
-  fill: none !important;
-}
-
-.post-like-button .MuiSvgIcon-root,
-.post-favorite-button .MuiSvgIcon-root {
-  font-size: 1.5em;
+  fill: currentColor !important;
+  font-size: 1.15em !important;
   vertical-align: middle;
-  transition: color 0.18s, filter 0.18s;
+  transition: color $t-fast, transform $t-fast;
 }
 
-.post-like-button .MuiSvgIcon-root,
-.post-favorite-button .MuiSvgIcon-root {
-  font-size: 1.5em;
-  vertical-align: middle;
-  transition: color 0.2s;
+.post-like-count {
+  font-size: 0.85rem;
+  font-weight: 700;
 }
 
-.post-like-button.liked .MuiSvgIcon-root {
-  color: #1976d2;
+.post-date {
+  margin-left: auto;
+  font-size: 0.78rem;
+  color: $text-muted;
+  white-space: nowrap;
 }
 
-.post-favorite-button.favorited .MuiSvgIcon-root {
-  color: #e91e63;
+.post-delete-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: $r-sm;
+  background: transparent;
+  color: $text-muted;
+  cursor: pointer;
+  transition: color $t-fast, background $t-fast;
+  flex-shrink: 0;
+
+  &:hover {
+    color: $error;
+    background: rgba($error, 0.1);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.post-error {
+  font-size: 0.82rem;
+  color: $error;
+  margin-top: 6px;
 }
