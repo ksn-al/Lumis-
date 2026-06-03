@@ -32,9 +32,21 @@ function PrivateRoute({ children }) {
 
 const AUTH_PAGES = ['/login', '/register', '/reset-password', '/forgot-password', '/auth/verify'];
 
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
+function useKeepAlive() {
+  useEffect(() => {
+    const ping = () => fetch(`${API_URL}/`, { credentials: 'include' }).catch(() => {});
+    ping(); // wake up immediately on app load
+    const id = setInterval(ping, 10 * 60 * 1000); // every 10 min
+    return () => clearInterval(id);
+  }, []);
+}
+
 function App() {
   const location = useLocation();
   const isAuthPage = AUTH_PAGES.some(p => location.pathname.startsWith(p));
+  useKeepAlive();
 
   return (
     <>
