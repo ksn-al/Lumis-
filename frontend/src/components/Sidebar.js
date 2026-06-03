@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { apiRequest } from '../api';
 import { useSocket } from '../context/SocketContext';
 import {
@@ -40,9 +41,21 @@ export default function Sidebar() {
   useEffect(() => {
     if (!socket) return;
     const handleNotif = (notif) => {
-      if (notif?.type !== 'new_message') setUnreadNotifs(prev => prev + 1);
+      if (notif?.type !== 'new_message') {
+        setUnreadNotifs(prev => prev + 1);
+        if (notif?.type === 'new_follower') {
+          toast(`🔔 ${notif.fromUser?.name || 'Кто-то'} подписался на тебя`);
+        } else if (notif?.type === 'new_like') {
+          toast(`❤️ ${notif.fromUser?.name || 'Кто-то'} лайкнул твой пост`);
+        } else if (notif?.type === 'new_post') {
+          toast(`📝 ${notif.fromUser?.name || 'Кто-то'} опубликовал новый пост`);
+        }
+      }
     };
-    const handleMessage = () => setUnreadMessages(prev => prev + 1);
+    const handleMessage = (msg) => {
+      setUnreadMessages(prev => prev + 1);
+      toast(`💬 ${msg.sender?.name || 'Новое сообщение'}`);
+    };
     const handleReconnect = () => {
       apiRequest('/notifications/unread-count').then(d => setUnreadNotifs(d.count || 0)).catch(() => {});
       apiRequest('/messages/unread-count').then(d => setUnreadMessages(d.count || 0)).catch(() => {});
