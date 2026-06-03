@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import prisma from "../utils/prisma";
-import { getIo, getUserSockets } from "../utils/socket";
+import { getIo } from "../utils/socket";
 import { uploadToCloudinary, deleteFromCloudinary } from "../utils/cloudinary";
 const logger = require("../utils/logger");
 
@@ -195,20 +195,17 @@ export const followUser = async (req: any, res: Response) => {
       });
       const io = getIo();
       if (io) {
-        const socketId = getUserSockets().get(userToFollow.id);
-        if (socketId) {
-          const fromUser = await prisma.user.findUnique({
-            where: { id: followerId },
-            select: { id: true, username: true, displayname: true, avatar: true },
-          });
-          io.to(socketId).emit('new-notification', {
-            id:        notification.id,
-            type:      'new_follower',
-            fromUser,
-            read:      false,
-            createdAt: notification.createdAt.toISOString(),
-          });
-        }
+        const fromUser = await prisma.user.findUnique({
+          where: { id: followerId },
+          select: { id: true, username: true, displayname: true, avatar: true },
+        });
+        io.to(userToFollow.id).emit('new-notification', {
+          id:        notification.id,
+          type:      'new_follower',
+          fromUser,
+          read:      false,
+          createdAt: notification.createdAt.toISOString(),
+        });
       }
     } catch (err) {
       logger.error('Notification error on follow:', err);

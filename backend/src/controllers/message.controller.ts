@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import prisma from "../utils/prisma";
-import { getIo, getUserSockets } from "../utils/socket";
+import { getIo } from "../utils/socket";
 const logger = require("../utils/logger");
 
 const msgInclude = {
@@ -12,8 +12,7 @@ function emitNewMessage(receiverId: string, message: any) {
   try {
     const io = getIo();
     if (!io) return;
-    const socketId = getUserSockets().get(receiverId);
-    if (socketId) io.to(socketId).emit('new-message', message);
+    io.to(receiverId).emit('new-message', message);
   } catch (err) {
     logger.error('Socket emit error:', err);
   }
