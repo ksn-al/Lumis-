@@ -18,13 +18,12 @@ export function initPassport() {
           const email = profile.emails?.[0]?.value;
           if (!email) return done(new Error('Google did not return an email'));
 
-          // Look up by googleId first, then by email (account linking)
           let user = await prisma.user.findFirst({
             where: { OR: [{ googleId: profile.id }, { email }] },
           });
 
           if (user) {
-            // Link Google account if user registered normally before
+            
             if (!user.googleId) {
               user = await prisma.user.update({
                 where: { id: user.id },
@@ -34,8 +33,6 @@ export function initPassport() {
             return done(null, user);
           }
 
-          // --- New user via Google ---
-          // Build a unique username from Google display name / email prefix
           const base = (profile.displayName || email.split('@')[0])
             .toLowerCase()
             .replace(/[^a-z0-9_]/g, '_')
@@ -54,7 +51,7 @@ export function initPassport() {
               displayname: profile.displayName || username,
               googleId:    profile.id,
               avatar:      googleAvatar,
-              isVerified:  true,  // Google already verified the email
+              isVerified:  true,  
             },
           });
 

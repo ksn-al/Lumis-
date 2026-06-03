@@ -14,10 +14,8 @@ const fileFilter = (req: Request, file: Express.Multer.File, cb: FileFilterCallb
 
 const storage = multer.memoryStorage();
 
-/** Single image field named "image" (for posts) */
 export const uploadPostImage = multer({ storage, fileFilter, limits: { fileSize: MAX_SIZE } })
   .single('image');
 
-/** Two optional fields: "avatar" and "headerPhoto" (for profile updates) */
 export const uploadProfileImages = multer({ storage, fileFilter, limits: { fileSize: MAX_SIZE } })
   .fields([{ name: 'avatar', maxCount: 1 }, { name: 'headerPhoto', maxCount: 1 }]);

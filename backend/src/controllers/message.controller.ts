@@ -19,10 +19,6 @@ function emitNewMessage(receiverId: string, message: any) {
   }
 }
 
-/**
- * Persist a new_message notification AND push it in real-time via socket.
- * senderInfo is the sender object already fetched from the message include.
- */
 async function createMessageNotification(
   senderId: string,
   receiverId: string,
@@ -36,7 +32,7 @@ async function createMessageNotification(
       data: { type: 'new_message', userId: receiverId, fromUserId: senderId, conversationId },
     });
 
-    // ── Real-time push ──────────────────────────────────────────────────────
+    
     const io = getIo();
     if (io) {
       io.to(receiverId).emit('new-notification', {
@@ -102,7 +98,7 @@ export const createConversationAndSendMessage = async (req: any, res: Response) 
       include: msgInclude,
     });
 
-    // Real-time delivery
+   
     emitNewMessage(receiver.id, message);
     await createMessageNotification(userId, receiver.id, conversation.id, message.sender);
 
@@ -118,9 +114,7 @@ export const getMessages = async (req: any, res: Response) => {
     const userId = req.userId;
     const { conversationId } = req.params;
 
-    // Cursor-based pagination: `before` is an ISO timestamp string.
-    // Omit it for the initial load (returns the most-recent `limit` messages).
-    // Pass it to load older messages above the oldest currently visible one.
+  
     const before = req.query.before as string | undefined;
     const limit  = Math.min(parseInt(req.query.limit as string) || 50, 100);
 
@@ -132,22 +126,22 @@ export const getMessages = async (req: any, res: Response) => {
       return res.status(403).json({ message: 'Немає доступу до цієї переписки' });
     }
 
-    // Fetch one extra to detect whether more pages exist
+    
     const raw = await prisma.message.findMany({
       where: {
         conversationId,
         ...(before ? { createdAt: { lt: new Date(before) } } : {}),
       },
-      orderBy: { createdAt: 'desc' },   // newest-first from DB
+      orderBy: { createdAt: 'desc' },   
       take:    limit + 1,
       include: msgInclude,
     });
 
     const hasMore = raw.length > limit;
-    if (hasMore) raw.pop();              // drop the sentinel extra record
-    raw.reverse();                       // oldest-first for display
+    if (hasMore) raw.pop();              
+    raw.reverse();                       
 
-    // The cursor the client sends on the next "load older" call
+    
     const nextCursor = hasMore ? raw[0].createdAt.toISOString() : null;
 
     res.json({ messages: raw, nextCursor });
@@ -181,7 +175,7 @@ export const sendMessage = async (req: any, res: Response) => {
       include: msgInclude,
     });
 
-    // Real-time delivery
+  
     emitNewMessage(receiver.id, message);
     await createMessageNotification(userId, receiver.id, conversationId, message.sender);
 
@@ -192,7 +186,7 @@ export const sendMessage = async (req: any, res: Response) => {
   }
 };
 
-// ── Unread message count (for sidebar badge) ─────────────────────────────────
+// непрочитані сайдбар 
 
 export const getUnreadCount = async (req: any, res: Response) => {
   try {
@@ -207,7 +201,7 @@ export const getUnreadCount = async (req: any, res: Response) => {
   }
 };
 
-// ── Mark all messages in a conversation as read ───────────────────────────────
+// відмітити як прочитані
 
 export const markConversationRead = async (req: any, res: Response) => {
   try {

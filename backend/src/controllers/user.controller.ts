@@ -115,7 +115,7 @@ export const updateProfile = async (req: any, res: Response) => {
     const userId = req.userId;
     const { displayname, username } = req.body;
 
-    // Fetch existing user to get old public_ids for deletion
+    
     const existing = await prisma.user.findUnique({
       where: { id: userId },
       select: { avatarPublicId: true, headerPhotoPublicId: true },
@@ -123,14 +123,14 @@ export const updateProfile = async (req: any, res: Response) => {
 
     const data: any = {};
 
-    // Accept any non-empty, trimmed string (allows single-char values; rejects blanks)
+    
     if (typeof displayname === 'string' && displayname.trim().length > 0) {
       data.displayname = displayname.trim();
     }
 
     if (typeof username === 'string' && username.trim().length > 0) {
       const trimmed = username.trim();
-      // Only allow letters, digits, underscores (no spaces or special chars that break URL routing)
+      
       if (!/^[a-zA-Z0-9_]{1,30}$/.test(trimmed)) {
         return res.status(400).json({ message: 'Username може містити лише літери, цифри та підкреслення (макс. 30 символів)' });
       }
@@ -138,14 +138,9 @@ export const updateProfile = async (req: any, res: Response) => {
       if (taken) return res.status(400).json({ message: 'Username вже зайнятий' });
       data.username = trimmed;
     }
-
-    // ── Avatar upload ──────────────────────────────────────────────────────
     const files = req.files as { [fieldname: string]: Express.Multer.File[] } | undefined;
-
     if (files?.avatar?.[0]) {
-      // Delete old avatar from Cloudinary if it has a public_id
       await deleteFromCloudinary(existing?.avatarPublicId);
-
       const result = await uploadToCloudinary(files.avatar[0].buffer, 'lumis/avatars', {
         transformation: [{ width: 400, height: 400, crop: 'fill', gravity: 'face', quality: 'auto' }],
       });
@@ -153,7 +148,6 @@ export const updateProfile = async (req: any, res: Response) => {
       data.avatarPublicId  = result.public_id;
     }
 
-    // ── Header photo upload ────────────────────────────────────────────────
     if (files?.headerPhoto?.[0]) {
       await deleteFromCloudinary(existing?.headerPhotoPublicId);
 
@@ -190,14 +184,11 @@ export const followUser = async (req: any, res: Response) => {
     try {
       await prisma.follow.create({ data: { followerId, followingId: userToFollow.id } });
     } catch (err: any) {
-      // P2002 = unique constraint — already following; treat as success
       if (err.code === 'P2002') {
         return res.status(200).json({ message: 'Already following' });
       }
       throw err;
     }
-
-    // Notification + real-time socket
     try {
       const notification = await prisma.notification.create({
         data: { type: 'new_follower', userId: userToFollow.id, fromUserId: followerId },

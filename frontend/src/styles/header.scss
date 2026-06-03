@@ -1,0 +1,98 @@
+
+
+.app-header {
+  @include glass(24px, 0.82);
+  border-bottom: 1px solid $border;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 24px;
+  height: 58px;
+  position: sticky;
+  top: 0;
+  z-index: 150;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25), 0 1px 0 rgba($purple-light, 0.08);
+}
+
+
+.header-search-form {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 540px;
+  position: relative;
+}
+
+.header-search-icon {
+  position: absolute;
+  left: 14px;
+  color: $text-muted;
+  pointer-events: none;
+  flex-shrink: 0;
+  transition: color $t-fast;
+}
+
+.header-search-input {
+  @include input-neon;
+  flex: 1;
+  height: 40px;
+  padding: 0 110px 0 40px;   
+  border-radius: $r-full;
+  font-size: 0.9rem;
+  width: 100%;
+
+  &:focus {
+    border-color: $purple-light;
+    box-shadow: 0 0 0 3px rgba($purple-primary, 0.15), $glow-sm;
+
+    ~ .header-search-icon { color: $purple-light; }
+  }
+
+  &:focus + .header-search-icon {
+    color: $purple-light;
+  }
+}
+
+.header-search-form:focus-within .header-search-icon {
+  color: $purple-light;
+}
+
+.header-search-btn {
+  position: absolute;
+  right: 4px;
+  height: 32px;
+  padding: 0 18px;
+  background: linear-gradient(135deg, $purple-primary, $purple-mid);
+  border: none;
+  border-radius: $r-full;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: box-shadow $t-normal, background $t-normal;
+  white-space: nowrap;
+
+  &:hover {
+    background: linear-gradient(135deg, $purple-mid, $pink-hot);
+    box-shadow: $glow-sm;
+  }
+}
+
+
+@media (max-width: 560px) {
+  .app-header {
+    padding: 0 12px;
+  }
+
+  .header-search-form {
+    max-width: 100%;
+  }
+
+  .header-search-btn {
+    display: none;
+  }
+
+  .header-search-input {
+    padding-right: 14px;
+  }
+}

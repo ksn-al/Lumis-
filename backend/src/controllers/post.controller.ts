@@ -47,10 +47,7 @@ export const createPost = async (req: any, res: Response) => {
     const enriched = withMeta(post, userId);
     res.status(201).json({ message: 'Post created successfully', post: enriched });
 
-    // Notify followers — DB persistence first (always), then real-time delivery
-    // (best-effort, only for online followers).  Fix 8: DB write is decoupled from
-    // socket availability — notifications accumulate even during socket restarts
-    // and are fetched fresh on next reconnect via GET /notifications.
+    
     setImmediate(async () => {
       try {
         const followers = await prisma.follow.findMany({
@@ -59,7 +56,6 @@ export const createPost = async (req: any, res: Response) => {
         });
         if (followers.length === 0) return;
 
-        // ── Persist to DB (always, regardless of socket state) ──────────────
         await prisma.notification.createMany({
           data: followers.map(f => ({
             type:       'new_post',
@@ -70,14 +66,13 @@ export const createPost = async (req: any, res: Response) => {
           skipDuplicates: true,
         });
 
-        // ── Real-time push (only for online followers) ───────────────────────
         const io = getIo();
-        if (!io) return;                    // socket not ready — DB is the fallback
+        if (!io) return;                  
 
-        const sockets = getUserSockets();   // returns null for offline users (Fix 3)
+        const sockets = getUserSockets();   
         for (const f of followers) {
           const socketId = sockets.get(f.followerId);
-          if (!socketId) continue;          // user offline — skip, they'll poll DB
+          if (!socketId) continue;          
 
           io.to(socketId).emit('new-post', enriched);
           io.to(socketId).emit('new-notification', {
@@ -105,7 +100,6 @@ export const deletePost = async (req: any, res: Response) => {
     if (!post)              return res.status(404).json({ message: 'Post not found' });
     if (post.userId !== userId) return res.status(403).json({ message: 'Not your post' });
 
-    // Remove image from Cloudinary before deleting the DB record
     await deleteFromCloudinary(post.imagePublicId);
 
     await prisma.post.delete({ where: { id: postId } });
@@ -127,7 +121,7 @@ export const likePost = async (req: any, res: Response) => {
     }
     await prisma.like.create({ data: { userId, postId } });
 
-    // Notification on like (not for own posts)
+    
     try {
       const post = await prisma.post.findUnique({ where: { id: postId }, select: { userId: true } });
       if (post && post.userId !== userId) {
@@ -168,9 +162,7 @@ export const getFeed = async (req: any, res: Response) => {
   try {
     const userId = req.userId;
 
-    // Cursor-based pagination.  `before` is an ISO timestamp — omit for the
-    // first page, pass the createdAt of the oldest post in the current view to
-    // load the next page of older posts.
+ 
     const before = req.query.before as string | undefined;
     const limit  = Math.min(parseInt(req.query.limit as string) || 20, 50);
 
@@ -187,14 +179,14 @@ export const getFeed = async (req: any, res: Response) => {
         ...(before ? { createdAt: { lt: new Date(before) } } : {}),
       },
       orderBy: { createdAt: 'desc' },
-      take:    limit + 1,           // fetch one extra to detect next page
+      take:    limit + 1,           
       include: postSelect,
     });
 
     const hasMore = raw.length > limit;
-    if (hasMore) raw.pop();         // discard the sentinel
+    if (hasMore) raw.pop();       
 
-    // cursor = createdAt of the last (oldest) post in this batch
+    
     const nextCursor = hasMore ? raw[raw.length - 1].createdAt.toISOString() : null;
 
     res.status(200).json({ posts: raw.map((p: any) => withMeta(p, userId)), nextCursor });

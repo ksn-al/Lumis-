@@ -14,9 +14,6 @@ export interface CloudinaryResult {
   public_id:  string;
 }
 
-/**
- * Upload a buffer to Cloudinary. Returns secure_url + public_id.
- */
 export async function uploadToCloudinary(
   buffer: Buffer,
   folder: string,
@@ -44,9 +41,6 @@ export async function uploadToCloudinary(
   });
 }
 
-/**
- * Delete an asset from Cloudinary by public_id (best-effort, never throws).
- */
 export async function deleteFromCloudinary(publicId: string | null | undefined): Promise<void> {
   if (!publicId) return;
   try {

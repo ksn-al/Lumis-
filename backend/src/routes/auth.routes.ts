@@ -14,11 +14,8 @@ import {
 
 const router = Router();
 
-// ── Rate limiters ────────────────────────
-// Applied only to the endpoints most at risk from brute-force and abuse.
-
 const loginLimiter = rateLimit({
-  windowMs:         60 * 1000,   // 1 minute
+  windowMs:         60 * 1000,   
   max:              5,
   standardHeaders:  true,
   legacyHeaders:    false,
@@ -41,7 +38,6 @@ const forgotPasswordLimiter = rateLimit({
   message:          { message: 'Too many password reset requests. Please try again in 1 minute.' },
 });
 
-// ── Standard auth ────────────────────────
 router.post('/register',             registerLimiter,       register);
 router.post('/login',                loginLimiter,          login);
 router.post('/logout',               logout);
@@ -50,7 +46,7 @@ router.post('/reset-password',       resetPassword);
 router.post('/resend-verification',  forgotPasswordLimiter, resendVerification);
 router.get('/verify',                verifyEmail);
 
-// ── Google OAuth2 ────────────────────────
+// Google OAuth2 
 router.get(
   '/google',
   passport.authenticate('google', { scope: ['email', 'profile'], session: false })

@@ -15,7 +15,7 @@ function withCommentMeta(comment: any, userId?: string) {
   };
 }
 
-/** GET /posts/:postId/comments */
+
 export const getComments = async (req: any, res: Response) => {
   try {
     const { postId } = req.params;
@@ -35,7 +35,7 @@ export const getComments = async (req: any, res: Response) => {
   }
 };
 
-/** POST /posts/:postId/comments */
+
 export const createComment = async (req: any, res: Response) => {
   try {
     const { postId } = req.params;
@@ -61,7 +61,7 @@ export const createComment = async (req: any, res: Response) => {
   }
 };
 
-/** POST /posts/comments/:commentId/like */
+
 export const likeComment = async (req: any, res: Response) => {
   try {
     const { commentId } = req.params;
@@ -84,7 +84,7 @@ export const likeComment = async (req: any, res: Response) => {
   }
 };
 
-/** DELETE /posts/comments/:commentId */
+
 export const deleteComment = async (req: any, res: Response) => {
   try {
     const { commentId } = req.params;

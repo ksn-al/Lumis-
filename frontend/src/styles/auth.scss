@@ -1,0 +1,44 @@
+
+.auth-bg {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $bg-deep;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: fixed;
+    top: -25%;
+    left: -20%;
+    width: 60%;
+    height: 60%;
+    background: radial-gradient(ellipse, rgba($purple-primary, 0.22) 0%, transparent 65%);
+    animation: glow-pulse 7s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  &::after {
+    content: '';
+    position: fixed;
+    bottom: -20%;
+    right: -15%;
+    width: 55%;
+    height: 55%;
+    background: radial-gradient(ellipse, rgba($pink-hot, 0.16) 0%, transparent 65%);
+    animation: glow-pulse 7s ease-in-out infinite 3.5s;
+    pointer-events: none;
+  }
+}
+
+.auth-container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 460px;
+  padding: 24px 16px;
+  animation: fadeInUp 0.5s ease both;
+}

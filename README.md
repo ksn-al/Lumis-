@@ -1,83 +1,59 @@
 # Соціальна мережа (Node.js + React)
 
-## Опис проекту
+Lumis — Соціальна мережа
+Опис проекту
+Lumis — це повноцінна соціальна мережа з бекендом на Node.js (TypeScript) та фронтендом на React. Підтримує авторизацію, стрічку постів, особисті повідомлення, сповіщення та багато іншого в режимі реального часу.
 
-Цей проект — це повноцінна соціальна мережа з бекендом на Node.js (TypeScript) та фронтендом на React. Реалізовано функціонал реєстрації, авторизації, створення постів, обміну повідомленнями, пошуку, додавання у вибране, відновлення паролю та профілі користувачів.
+Структура проекту
+backend/ — серверна частина (Node.js, Express, TypeScript, Prisma)
+src/controllers/ — обробка запитів (auth, user, post, message, notification, comment)
+src/routes/ — маршрути API
+src/middleware/ — middleware для авторизації та завантаження файлів
+src/utils/ — логер, пошта, Cloudinary, Passport, Socket.io
+prisma/ — схема бази даних та міграції
+frontend_backup/ — клієнтська частина (React)
+src/pages/ — сторінки: Feed, Profile, Messages, Notifications, Search, Favorite, Login, Register, ForgotPassword, ResetPassword, VerifyEmail
+src/components/ — компоненти: Header, Sidebar, Post, CommentSection, Icons
+src/context/ — SocketContext (єдине socket-з'єднання для всього додатку)
+src/api/ — хелпер для запитів до бекенду
+src/styles/ — стилі (SCSS)
 
-## Структура проекту
+Функціонал
+Реєстрація та вхід через JWT (httpOnly cookies)
+Авторизація через Google OAuth 2.0
+Верифікація email та відновлення паролю через Brevo
+Стрічка постів з нескінченним скролом та оновленням у реальному часі
+Завантаження зображень для постів та аватарів через Cloudinary
+Коментарі та лайки до постів
+Збережені (улюблені) пости
+Пошук користувачів
+Підписка / відписка від користувачів
+Особисті повідомлення в реальному часі з пагінацією
+Сповіщення в реальному часі (нові підписники, лайки, повідомлення, пости)
+Лічильники непрочитаних повідомлень та сповіщень
+Редагування профілю (аватар, фото обкладинки, біо, ім'я)
+Частково адаптивний дизайн
 
-- **backend/** — серверна частина (Node.js, Express, Prisma, TypeScript)
-  - `src/controllers/` — логіка обробки запитів (auth, user, post, message)
-  - `src/routes/` — маршрутизація API
-  - `src/middleware/` — проміжне ПЗ (middleware)
-  - `src/utils/` — допоміжні утиліти (логер, пошта, prisma)
-  - `prisma/` — схема бази даних та міграції
-  - `uploads/` — завантажені файли
-- **frontend_backup/** — клієнтська частина (React)
-  - `src/pages/` — сторінки (Feed, Profile, Login, Register, Messages, Search, Favorite, Forgot/Reset Password)
-  - `src/components/` — компоненти (Header, Post, Icons)
-  - `src/api/` — запити до бекенду
-  - `src/styles/` — стилі (SCSS)
-  - `public/` — статичні файли
+Технології
+Backend: Node.js, Express 5, TypeScript, Prisma ORM, PostgreSQL (Neon), JWT, bcryptjs, Socket.io, Passport.js, Cloudinary, Brevo, Winston
+Frontend: React 19, React Router, SCSS, Socket.io-client, Lucide React
+Деплой: Render (бекенд), Vercel (фронтенд)
+Запуск локально
+Backend
+cd backend
+npm install
+cp .env.example .env # заповніть реальні значення
+npx prisma migrate deploy
+npm run dev
+Frontend
+cd frontend_backup
+npm install
 
-## Основний функціонал
+# створіть .env з REACT_APP_API_URL=http://localhost:5000
 
-- Реєстрація та авторизація користувачів
-- Відновлення та скидання паролю через email
-- Пошук користувачів та постів
-- Створення, редагування, видалення постів
-- Додавання постів у вибране
-- Особисті повідомлення між користувачами
-- Перегляд та редагування профілю
-- Завантаження аватару
-- Адаптивний дизайн
+npm start
+Змінні середовища
+Дивіться backend/.env.example та frontend_backup/.env.example — там перелічені всі необхідні змінні.
 
-## Технології
-
-- **Backend:** Node.js, Express, TypeScript, Prisma ORM, JWT, bcrypt, nodemailer
-- **Frontend:** React, SCSS, fetch/axios
-- **База даних:** PostgreSQL (через Prisma)
-- **Інше:** REST API, email-верифікація, захист маршрутів middleware
-
-## Як запустити
-
-### Backend
-
-1. Встановити залежності:
-   ```
-   cd backend
-   npm install
-   ```
-2. Налаштувати змінні середовища (.env)
-3. Запустити міграції:
-   ```
-   npx prisma migrate deploy
-   ```
-4. Запустити сервер:
-   ```
-   npm run dev
-   ```
-
-### Frontend
-
-1. Встановити залежності:
-   ```
-   cd frontend_backup
-   npm install
-   ```
-2. Запустити клієнт:
-   ```
-   npm start
-   ```
-
-## Схема бази даних
-
-- Користувачі (users)
-- Пости (posts)
-- Повідомлення (messages)
-- Вибране (favorites)
-- Токени для відновлення/верифікації
-
-## Автор
-
-- [Ваше ім'я]
+Автор
+Оксана Аленькова

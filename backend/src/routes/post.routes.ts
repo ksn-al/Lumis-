@@ -19,7 +19,6 @@ import { uploadPostImage } from '../middleware/upload.middleware';
 
 const router = Router();
 
-// Post routes (static paths first, then parameterised)
 router.get('/feed',      authMiddleware, getFeed);
 router.get('/search',    searchPosts);
 router.get('/favorites', authMiddleware, getFavorites);
@@ -28,7 +27,6 @@ router.delete('/:id',    authMiddleware, deletePost);
 router.post('/:id/like',     authMiddleware, likePost);
 router.post('/:id/favorite', authMiddleware, toggleFavorite);
 
-// Comment routes
 router.get('/:postId/comments',           optionalAuth,    getComments);
 router.post('/:postId/comments',          authMiddleware,  createComment);
 router.post('/comments/:commentId/like',  authMiddleware,  likeComment);

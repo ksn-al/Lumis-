@@ -8,8 +8,6 @@ import crypto from 'crypto';
 
 const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:3000';
 
-// ─── helpers ────────────────────────────────────────────────────────────────
-
 function issueJwt(res: Response, userId: string, rememberMe = false) {
   const secret    = process.env.JWT_SECRET as string;
   const expiresIn = rememberMe ? '30d' : '7d';
@@ -19,13 +17,11 @@ function issueJwt(res: Response, userId: string, rememberMe = false) {
   const isProd = process.env.NODE_ENV === 'production';
   res.cookie('token', token, {
     httpOnly: true,
-    sameSite: isProd ? 'none' : 'lax',   // 'none' required for cross-origin (Vercel→Render)
-    secure:   isProd,                     // 'none' only works with secure:true
+    sameSite: isProd ? 'none' : 'lax',   
+    secure:   isProd,                     
     maxAge,
   });
 }
-
-// ─── register ───────────────────────────────────────────────────────────────
 
 export const register = async (req: Request, res: Response) => {
   try {
@@ -53,7 +49,7 @@ export const register = async (req: Request, res: Response) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const verificationToken = crypto.randomBytes(32).toString('hex');
-    // Verification link expires in 24 hours
+    
     const verificationTokenExpiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
 
     await prisma.user.create({
@@ -82,8 +78,6 @@ export const register = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Помилка сервера" });
   }
 };
-
-// ─── login ──────────────────────────────────────────────────────────────────
 
 export const login = async (req: Request, res: Response) => {
   try {
@@ -122,8 +116,6 @@ export const login = async (req: Request, res: Response) => {
   }
 };
 
-// ─── logout ─────────────────────────────────────────────────────────────────
-
 export const logout = (req: Request, res: Response) => {
   const isProd = process.env.NODE_ENV === 'production';
   res.clearCookie('token', {
@@ -134,23 +126,20 @@ export const logout = (req: Request, res: Response) => {
   res.status(200).json({ message: 'Logout successful' });
 };
 
-// ─── forgot password ────────────────────────────────────────────────────────
-
 export const forgotPassword = async (req: Request, res: Response) => {
   try {
     const { email } = req.body;
 
-    // Always return the same response to prevent email enumeration
+    
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user) {
       return res.json({ message: 'If that email exists, a reset link has been sent.' });
     }
 
-    // Generate a random token, store only its SHA-256 hash in the DB.
-    // The plain token is sent in the email link and never persisted.
+   
     const resetToken     = crypto.randomBytes(32).toString('hex');
     const resetTokenHash = crypto.createHash('sha256').update(resetToken).digest('hex');
-    // Token expires in 1 hour
+
     const resetTokenExpiresAt = new Date(Date.now() + 60 * 60 * 1000);
 
     await prisma.user.update({
@@ -173,8 +162,6 @@ export const forgotPassword = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
-
-// ─── verify email ───────────────────────────────────────────────────────────
 
 export const verifyEmail = async (req: Request, res: Response) => {
   try {
@@ -208,14 +195,12 @@ export const verifyEmail = async (req: Request, res: Response) => {
   }
 };
 
-// ─── resend verification ────────────────────────────────────────────────────
-
 export const resendVerification = async (req: Request, res: Response) => {
   try {
     const { email } = req.body;
     if (!email) return res.status(400).json({ message: 'Email is required' });
 
-    // Always return the same response to prevent user enumeration
+    
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user || user.isVerified) {
       return res.json({ message: 'If that email exists and is unverified, a new link has been sent.' });
@@ -245,8 +230,6 @@ export const resendVerification = async (req: Request, res: Response) => {
   }
 };
 
-// ─── reset password ─────────────────────────────────────────────────────────
-
 export const resetPassword = async (req: Request, res: Response) => {
   try {
     const { email, token, newPassword } = req.body;
@@ -257,7 +240,7 @@ export const resetPassword = async (req: Request, res: Response) => {
       return res.status(400).json({ message: 'Пароль має бути не менше 6 символів' });
     }
 
-    // Hash the incoming plain token and compare against the stored hash.
+    
     const tokenHash = crypto.createHash('sha256').update(token).digest('hex');
     const user = await prisma.user.findUnique({
       where:  { email },
@@ -268,7 +251,7 @@ export const resetPassword = async (req: Request, res: Response) => {
       return res.status(400).json({ message: 'Invalid token or email' });
     }
 
-    // Reject expired tokens
+   
     if (user.resetTokenExpiresAt && user.resetTokenExpiresAt < new Date()) {
       return res.status(400).json({ message: 'Reset link has expired. Please request a new one.' });
     }
@@ -289,8 +272,6 @@ export const resetPassword = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
-
-// ─── Google OAuth callback ───────────────────────────────────────────────────
 
 export const googleCallback = (req: any, res: Response) => {
   try {

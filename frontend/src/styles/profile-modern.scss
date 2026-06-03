@@ -1,0 +1,480 @@
+
+
+.profile-page-modern {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 28px 16px 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+
+.profile-modern-card {
+  @include glass(20px, 0.65);
+  @include neon-border;
+  border-radius: $r-xl;
+  overflow: hidden;
+  box-shadow: $shadow-card;
+  animation: fadeInUp 0.4s ease both;
+}
+
+.profile-modern-cover-wrap {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(135deg,
+    rgba($purple-primary, 0.3),
+    rgba($pink-hot, 0.2),
+    rgba($purple-mid, 0.35));
+
+
+  &--no-image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg,
+      rgba($purple-primary, 0.5),
+      rgba($pink-hot, 0.3));
+    background-size: 200% 200%;
+    animation: gradient-x 6s ease infinite;
+  }
+}
+
+.profile-modern-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform $t-slow;
+  &:hover { transform: scale(1.03); }
+}
+
+.profile-modern-main-row {
+  padding: 0 28px 28px;
+  display: flex;
+  align-items: flex-end;
+  gap: 22px;
+}
+
+
+.profile-modern-avatar-block {
+  flex-shrink: 0;
+  margin-top: -52px;
+  position: relative;
+}
+
+.profile-modern-avatar {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid $bg-card;
+  box-shadow:
+    0 0 0 2px rgba($purple-primary, 0.6),
+    $glow-md;
+  background: $bg-card;
+  transition: box-shadow $t-normal;
+
+  &:hover {
+    box-shadow:
+      0 0 0 2px rgba($pink-hot, 0.6),
+      $glow-pink;
+  }
+}
+
+.profile-modern-avatar-placeholder {
+  @extend .profile-modern-avatar;
+  background: $grad-primary !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #fff;
+}
+
+
+
+.profile-modern-info-block {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-top: 12px;
+}
+
+.profile-modern-names {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.profile-modern-displayname {
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: $text;
+  line-height: 1.2;
+  letter-spacing: -0.3px;
+}
+
+.profile-modern-username {
+  font-size: 0.92rem;
+  color: $text-secondary;
+  font-weight: 500;
+}
+
+.profile-modern-follow-row {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.profile-modern-following,
+.profile-modern-followers {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: $text-secondary;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: $r-sm;
+  border: 1px solid transparent;
+  transition: all $t-fast;
+
+  strong {
+    color: $text;
+    font-weight: 800;
+  }
+
+  &:hover {
+    color: $purple-light;
+    background: rgba($purple-primary, 0.08);
+    border-color: rgba($purple-primary, 0.2);
+  }
+}
+
+
+.profile-modern-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.profile-follow-button {
+  @include btn-neon($purple-primary, $pink-hot);
+  height: 38px;
+  padding: 0 22px;
+  font-size: 0.88rem;
+  border-radius: $r-md;
+}
+
+.profile-unfollow-button {
+  height: 38px;
+  padding: 0 22px;
+  background: transparent;
+  border: 1px solid rgba($purple-light, 0.35);
+  border-radius: $r-md;
+  color: $purple-light;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all $t-normal;
+
+  &:hover {
+    background: rgba($error, 0.08);
+    border-color: rgba($error, 0.4);
+    color: $error;
+  }
+}
+
+.profile-message-button {
+  height: 38px;
+  padding: 0 18px;
+  background: transparent;
+  border: 1px solid rgba($pink-hot, 0.35);
+  border-radius: $r-md;
+  color: $pink-light;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all $t-normal;
+
+  &:hover {
+    background: rgba($pink-hot, 0.1);
+    border-color: rgba($pink-hot, 0.6);
+    box-shadow: 0 0 12px rgba($pink-hot, 0.25);
+    transform: translateY(-1px);
+  }
+}
+
+.profile-edit-btn-under-avatar {
+  height: 36px;
+  padding: 0 20px;
+  background: transparent;
+  border: 1px solid rgba($purple-light, 0.35);
+  border-radius: $r-md;
+  color: $purple-light;
+  font-size: 0.86rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all $t-normal;
+
+  &:hover {
+    background: rgba($purple-primary, 0.1);
+    border-color: rgba($purple-light, 0.6);
+    box-shadow: $glow-sm;
+    transform: translateY(-1px);
+  }
+}
+
+.profile-save-msg {
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: $r-sm;
+  color: $success;
+  background: rgba($success, 0.1);
+  border: 1px solid rgba($success, 0.25);
+  text-align: center;
+}
+
+
+.profile-edit-form {
+  @include glass(20px, 0.65);
+  @include neon-border;
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  border-radius: $r-xl;
+  box-shadow: $shadow-card;
+  animation: fadeInUp 0.4s ease both;
+
+  h3 {
+    font-size: 1.3rem;
+    font-weight: 800;
+    background: $grad-primary;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 4px;
+  }
+
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    color: $text-secondary;
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  input[type="text"],
+  input[type="file"] {
+    @include input-neon;
+    width: 100%;
+    height: 46px;
+    padding: 0 14px;
+    font-size: 0.95rem;
+    font-family: inherit;
+  }
+
+  input[type="file"] {
+    height: auto;
+    padding: 10px 14px;
+    cursor: pointer;
+    color: $text-secondary;
+
+    &::-webkit-file-upload-button {
+      background: rgba($purple-primary, 0.15);
+      border: 1px solid rgba($purple-light, 0.3);
+      border-radius: $r-sm;
+      color: $purple-light;
+      padding: 6px 12px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-right: 12px;
+      transition: all $t-fast;
+
+      &:hover {
+        background: rgba($purple-primary, 0.25);
+      }
+    }
+  }
+
+  button[type="button"] {
+    height: 42px;
+    background: transparent;
+    border: 1px solid rgba($text-muted, 0.3);
+    border-radius: $r-md;
+    color: $text-secondary;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all $t-fast;
+    box-shadow: none !important;
+
+    &:hover {
+      border-color: rgba($error, 0.4);
+      color: $error;
+      background: rgba($error, 0.05);
+      transform: none !important;
+    }
+  }
+}
+
+.profile-save-button {
+  @include btn-neon($purple-primary, $pink-hot);
+  width: 100%;
+  height: 48px;
+  font-size: 0.97rem;
+  border-radius: $r-md;
+}
+
+
+.profile-modern-posts-block {
+  @include glass(16px, 0.55);
+  @include neon-border;
+  border-radius: $r-xl;
+  padding: 24px;
+  box-shadow: $shadow-card;
+  animation: fadeInUp 0.5s ease 0.1s both;
+}
+
+.profile-modern-posts-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: $text;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, rgba($purple-primary, 0.3), transparent);
+  }
+}
+
+.profile-no-posts,
+.profile-loading {
+  padding: 40px 20px;
+  text-align: center;
+  color: $text-muted;
+  font-size: 0.95rem;
+}
+
+
+.profile-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba($bg-deep, 0.7);
+  backdrop-filter: blur(12px);
+  animation: fadeIn 0.2s ease;
+}
+
+.profile-modal {
+  @include glass(24px, 0.85);
+  @include neon-border($purple-light, 1px);
+  width: 100%;
+  max-width: 440px;
+  padding: 28px;
+  border-radius: $r-xl;
+  box-shadow: $shadow-card, $glow-md;
+  animation: fadeInUp 0.3s ease;
+}
+
+.profile-modal-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  margin-bottom: 20px;
+  background: $grad-primary;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.profile-modal-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+  max-height: 320px;
+  overflow-y: auto;
+  @include scrollbar;
+}
+
+.profile-modal-list-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 14px;
+  border-radius: $r-md;
+  background: rgba($purple-primary, 0.07);
+  border: 1px solid $border;
+  color: $text;
+  font-size: 0.92rem;
+  font-weight: 500;
+  transition: all $t-fast;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba($purple-primary, 0.14);
+    border-color: rgba($purple-light, 0.35);
+    color: $purple-light;
+  }
+}
+
+.profile-modal-close {
+  @include btn-neon($purple-primary, $pink-hot);
+  width: 100%;
+  height: 44px;
+  font-size: 0.9rem;
+  border-radius: $r-md;
+}
+
+
+@media (max-width: 600px) {
+  .profile-modern-cover-wrap { height: 150px; }
+
+  .profile-modern-main-row {
+    padding: 0 18px 22px;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+  }
+
+  .profile-modern-avatar-block { margin-top: -48px; }
+
+  .profile-modern-avatar,
+  .profile-modern-avatar-placeholder {
+    width: 96px;
+    height: 96px;
+  }
+
+  .profile-modern-info-block { align-items: center; }
+
+  .profile-modern-follow-row,
+  .profile-modern-actions { justify-content: center; }
+
+  .profile-modern-displayname { font-size: 1.4rem; }
+
+  .profile-edit-form {
+    padding: 20px 16px;
+  }
+}
