@@ -79,7 +79,7 @@ function Login() {
 
         <button type="button" className="google-oauth-btn" onClick={handleGoogleLogin} disabled={googleLoading}>
           <GoogleIcon />
-          {googleLoading ? 'Подключение...' : 'Continue with Google'}
+          {googleLoading ? 'Connecting...' : 'Continue with Google'}
         </button>
 
         <div className="oauth-divider">or</div>
