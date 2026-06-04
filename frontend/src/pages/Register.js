@@ -22,6 +22,7 @@ function Register() {
   const [message,     setMessage]     = useState('');
   const [isSuccess,   setIsSuccess]   = useState(false);
   const [loading,     setLoading]     = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
 
   const pwStrength = password.length === 0 ? '' :
     password.length < 6 ? 'weak' :
@@ -50,16 +51,20 @@ function Register() {
     }
   };
 
-  const handleGoogleLogin = () => {
+  const handleGoogleLogin = async () => {
+    setGoogleLoading(true);
+    try {
+      await fetch(`${API_URL}/`, { credentials: 'include' });
+    } catch {}
     window.location.href = `${API_URL}/auth/google`;
   };
 
   return (
     <form onSubmit={handleSubmit} className="register-form">
       <h2 className="register-title">Create Account</h2>
-      <button type="button" className="google-oauth-btn" onClick={handleGoogleLogin}>
+      <button type="button" className="google-oauth-btn" onClick={handleGoogleLogin} disabled={googleLoading}>
         <GoogleIcon />
-        Continue with Google
+        {googleLoading ? 'Connecting...' : 'Continue with Google'}
       </button>
 
       <div className="oauth-divider">or</div>
