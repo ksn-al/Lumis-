@@ -12,6 +12,7 @@ function Login() {
   const [remember,         setRemember]        = useState(false);
   const [showRegister,     setShowRegister]    = useState(false);
   const [loading,          setLoading]         = useState(false);
+  const [googleLoading,    setGoogleLoading]   = useState(false);
   const [unverified,       setUnverified]      = useState(false);
   const [resendMsg,        setResendMsg]       = useState('');
   const navigate = useNavigate();
@@ -63,7 +64,11 @@ function Login() {
     }
   };
 
-  const handleGoogleLogin = () => {
+  const handleGoogleLogin = async () => {
+    setGoogleLoading(true);
+    try {
+      await fetch(`${API_URL}/`, { credentials: 'include' });
+    } catch {}
     window.location.href = `${API_URL}/auth/google`;
   };
 
@@ -72,9 +77,9 @@ function Login() {
       <form onSubmit={handleSubmit} className="login-form">
         <h2 className="login-title">Login</h2>
 
-        <button type="button" className="google-oauth-btn" onClick={handleGoogleLogin}>
+        <button type="button" className="google-oauth-btn" onClick={handleGoogleLogin} disabled={googleLoading}>
           <GoogleIcon />
-          Continue with Google
+          {googleLoading ? 'Подключение...' : 'Continue with Google'}
         </button>
 
         <div className="oauth-divider">or</div>
