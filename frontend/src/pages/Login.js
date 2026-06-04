@@ -66,10 +66,14 @@ function Login() {
 
   const handleGoogleLogin = async () => {
     setGoogleLoading(true);
-    try {
-      await fetch(`${API_URL}/`, { credentials: 'include' });
-    } catch {}
-    window.location.href = `${API_URL}/auth/google`;
+    const isProduction = window.location.hostname !== 'localhost';
+    const googleUrl = isProduction ? '/api/auth/google' : `${API_URL}/auth/google`;
+    if (isProduction) {
+      window.location.href = googleUrl;
+    } else {
+      try { await fetch(`${API_URL}/`, { credentials: 'include' }); } catch {}
+      window.location.href = googleUrl;
+    }
   };
 
   return (

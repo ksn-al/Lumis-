@@ -38,9 +38,11 @@ const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
 function useKeepAlive() {
   useEffect(() => {
-    const ping = () => fetch(`${API_URL}/`, { credentials: 'include' }).catch(() => {});
-    ping(); // wake up immediately on app load
-    const id = setInterval(ping, 10 * 60 * 1000); // every 10 min
+    const isProduction = window.location.hostname !== 'localhost';
+    const pingUrl = isProduction ? '/api/' : `${API_URL}/`;
+    const ping = () => fetch(pingUrl, { credentials: 'include' }).catch(() => {});
+    ping();
+    const id = setInterval(ping, 10 * 60 * 1000);
     return () => clearInterval(id);
   }, []);
 }

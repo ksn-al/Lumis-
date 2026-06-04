@@ -13,12 +13,17 @@ export function SocketProvider({ children }) {
     let destroyed = false;
     let retryTimeout = null;
 
+    const isProduction = window.location.hostname !== 'localhost';
+    const tokenUrl = isProduction
+      ? '/api/auth/socket-token'
+      : `${SOCKET_URL}/auth/socket-token`;
+
     const connect = async (attempt = 0) => {
       if (destroyed || socketRef.current) return;
 
       let token = null;
       try {
-        const res = await fetch(`${SOCKET_URL}/auth/socket-token`, { credentials: 'include' });
+        const res = await fetch(tokenUrl, { credentials: 'include' });
         if (res.ok) {
           const data = await res.json();
           token = data.token;
