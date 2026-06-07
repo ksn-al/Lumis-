@@ -43,18 +43,20 @@ export default function Sidebar() {
     const handleNotif = (notif) => {
       if (notif?.type !== 'new_message') {
         setUnreadNotifs(prev => prev + 1);
+        const who = notif.fromUser?.displayname || notif.fromUser?.username || 'Someone';
         if (notif?.type === 'new_follower') {
-          toast(`🔔 ${notif.fromUser?.name || 'Кто-то'} подписался на тебя`);
+          toast(`${who} followed you`);
         } else if (notif?.type === 'new_like') {
-          toast(`❤️ ${notif.fromUser?.name || 'Кто-то'} лайкнул твой пост`);
+          toast(`${who} liked your post`);
         } else if (notif?.type === 'new_post') {
-          toast(`📝 ${notif.fromUser?.name || 'Кто-то'} опубликовал новый пост`);
+          toast(`${who} published a new post`);
         }
       }
     };
     const handleMessage = (msg) => {
       setUnreadMessages(prev => prev + 1);
-      toast(`💬 ${msg.sender?.name || 'Новое сообщение'}`);
+      const who = msg.sender?.displayname || msg.sender?.username || 'Someone';
+      toast(`${who} sent you a message`);
     };
     const handleReconnect = () => {
       apiRequest('/notifications/unread-count').then(d => setUnreadNotifs(d.count || 0)).catch(() => {});

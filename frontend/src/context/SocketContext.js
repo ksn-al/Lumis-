@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { io } from 'socket.io-client';
 
-const SOCKET_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+const SOCKET_URL = (process.env.REACT_APP_API_URL || 'http://localhost:5000').trim();
 
 const SocketContext = createContext(null);
 
@@ -51,9 +51,18 @@ export function SocketProvider({ children }) {
         reconnectionDelayMax: 10000,
       });
 
-      s.on('connect_error', async () => {
+      s.on('connect', () => {
+        console.log('[Socket] Connected, id:', s.id);
+      });
+
+      s.on('disconnect', (reason) => {
+        console.warn('[Socket] Disconnected:', reason);
+      });
+
+      s.on('connect_error', async (err) => {
+        console.error('[Socket] connect_error:', err.message);
         try {
-          const r = await fetch(`${SOCKET_URL}/auth/socket-token`, { credentials: 'include' });
+          const r = await fetch(tokenUrl, { credentials: 'include' });
           if (r.ok) {
             const { token: newToken } = await r.json();
             s.auth = { token: newToken };

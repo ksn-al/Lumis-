@@ -85,6 +85,49 @@ a { color: inherit; text-decoration: none; }
 img { max-width: 100%; display: block; }
 
 
+// ── Toast overrides ────────────────────────────────────────────────
+.Toastify__toast-container {
+  bottom: 24px !important;
+  right: 24px !important;
+  width: auto !important;
+  max-width: 340px !important;
+}
+
+.Toastify__toast {
+  background: rgba(22, 22, 37, 0.95) !important;
+  border: 1px solid rgba(168, 85, 247, 0.25) !important;
+  border-radius: 16px !important;
+  backdrop-filter: blur(16px) !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 16px rgba(106,0,255,0.15) !important;
+  color: #F0E6FF !important;
+  font-family: 'Space Grotesk', 'Inter', sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  padding: 14px 18px !important;
+  min-height: unset !important;
+}
+
+.Toastify__toast-body {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.Toastify__progress-bar {
+  background: linear-gradient(90deg, #6A00FF, #FF4FD8) !important;
+  height: 2px !important;
+  border-radius: 0 0 16px 16px !important;
+}
+
+.Toastify__close-button {
+  color: rgba(168, 85, 247, 0.6) !important;
+  opacity: 1 !important;
+  align-self: center !important;
+
+  &:hover { color: #A855F7 !important; }
+}
+// ───────────────────────────────────────────────────────────────────
+
+
 ::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {

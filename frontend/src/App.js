@@ -75,7 +75,6 @@ function App() {
             closeOnClick
             pauseOnHover
             draggable
-            theme="dark"
           />
           <Header />
           <div className="app-layout">
